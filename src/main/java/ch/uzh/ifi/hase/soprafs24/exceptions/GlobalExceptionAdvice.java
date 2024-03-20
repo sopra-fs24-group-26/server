@@ -21,7 +21,6 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
 
   private final Logger log = LoggerFactory.getLogger(GlobalExceptionAdvice.class);
 
-  @SuppressWarnings("null")
   @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
   protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
     String bodyOfResponse = "This should be application specific";
