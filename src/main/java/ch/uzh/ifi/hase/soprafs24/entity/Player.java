@@ -7,21 +7,31 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "SESSION")
-public class Session implements Serializable {
+@Table(name = "PLAYER")
+public class Player implements Serializable {
 
     @Id
     @Getter
     @Setter
+    private String playerID;
+
+    @Getter
+    @Setter
+    @Column
+    private String playerName;
+
+    @Getter
+    @Setter
+    @Column
     private String sessionID;
 
     @Getter
     @Setter
     @Column
-    private String turnPlayer;
+    private Integer role;
 
     @Getter
     @Setter
-    @Column(nullable = false)
-    private Integer playerCount;
+    @Column
+    private Integer orderIndex;
 }

@@ -19,17 +19,20 @@ public class SessionService {
     public SessionService(@Qualifier("sessionRepository") SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
     }
-    public Session createSession(){
+
+    public String createSession() {
         Session newSession = new Session();
         newSession.setPlayerCount(1);
-        newSession.setSessionID(UUID.randomUUID().toString());
-        newSession = sessionRepository.save(newSession);
+        String sessionID = UUID.randomUUID().toString();
+        newSession.setSessionID(sessionID);
+        sessionRepository.save(newSession);
         sessionRepository.flush();
-        return newSession;
+        return sessionID;
     }
 
-    public Session getSessionByID(String SessionID){
+    public void joinSession(String SessionID) {
         Session sessionByID = sessionRepository.findBySessionID(SessionID);
-        return sessionByID;
+        Integer curr = sessionByID.getPlayerCount();
+        sessionByID.setPlayerCount(curr + 1);
     }
 }
