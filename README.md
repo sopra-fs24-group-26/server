@@ -15,3 +15,9 @@
 5. Members create branches and commit changes.
 6. Members open pull requests which the others review.
 7. When merged, issue gets closed.
+
+## Formatting
+- Generally good structuring in folders (for example for all DTOs)
+- Generally small functions and classes
+- For TS: Prettier formatting
+- For Java: still to find out
