@@ -20,18 +20,17 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Player createPlayer(String playerName, String sessionID) {
+    public Player createPlayer(String playerName, String sessionId) {
         Player newPlayer = new Player();
-        newPlayer.setPlayerName(playerName);
-        newPlayer.setSessionID(sessionID);
-        newPlayer.setPlayerID(UUID.randomUUID().toString());
+        newPlayer.setName(playerName);
+        newPlayer.setSessionId(sessionId);
+        newPlayer.setId(UUID.randomUUID().toString());
         newPlayer = playerRepository.save(newPlayer);
         playerRepository.flush();
         return newPlayer;
     }
 
-    public List<Player> getPlayersInSession(String SessionID) {
-        List<Player> playersInSession = playerRepository.findAllBySessionID(SessionID);
-        return playersInSession;
+    public List<Player> getPlayersInSession(String sessionId) {
+        return playerRepository.findAllBySessionId(sessionId);
     }
 }

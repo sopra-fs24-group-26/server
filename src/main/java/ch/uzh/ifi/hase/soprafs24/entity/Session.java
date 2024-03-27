@@ -13,7 +13,7 @@ public class Session implements Serializable {
     @Id
     @Getter
     @Setter
-    private String sessionID;
+    private String id;
 
     @Getter
     @Setter

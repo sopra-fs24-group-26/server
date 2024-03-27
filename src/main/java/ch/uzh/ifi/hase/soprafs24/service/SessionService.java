@@ -22,16 +22,16 @@ public class SessionService {
     public String createSession() {
         Session newSession = new Session();
         newSession.setPlayerCount(1);
-        String sessionID = UUID.randomUUID().toString();
-        newSession.setSessionID(sessionID);
+        String sessionId = UUID.randomUUID().toString();
+        newSession.setId(sessionId);
         sessionRepository.save(newSession);
         sessionRepository.flush();
-        return sessionID;
+        return sessionId;
     }
 
-    public void joinSession(String SessionID) {
-        Session sessionByID = sessionRepository.findBySessionID(SessionID);
-        Integer curr = sessionByID.getPlayerCount();
-        sessionByID.setPlayerCount(curr + 1);
+    public void joinSession(String sessionId) {
+        Session sessionById = sessionRepository.findById(sessionId);
+        Integer curr = sessionById.getPlayerCount();
+        sessionById.setPlayerCount(curr + 1);
     }
 }

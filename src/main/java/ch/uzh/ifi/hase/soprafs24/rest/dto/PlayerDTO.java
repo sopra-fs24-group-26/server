@@ -1,14 +1,12 @@
-package ch.uzh.ifi.hase.soprafs24.entity;
+package ch.uzh.ifi.hase.soprafs24.rest.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Id;
 
-@Entity
-@Table(name = "PLAYER")
-public class Player implements Serializable {
+public class PlayerDTO {
 
     @Id
     @Getter

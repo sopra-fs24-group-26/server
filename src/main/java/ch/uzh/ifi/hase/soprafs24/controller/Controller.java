@@ -2,8 +2,7 @@ package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 
-import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerIDDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerNameDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
 import ch.uzh.ifi.hase.soprafs24.service.PlayerService;
@@ -26,11 +25,11 @@ public class Controller {
 
     @GetMapping("/players")
     @ResponseBody
-    public List<PlayerNameDTO> getPlayersInSession(@RequestBody String sessionID) {
+    public List<PlayerDTO> getPlayersInSession(@RequestBody String sessionID) {
         List<Player> playersInSession = playerService.getPlayersInSession(sessionID);
-        List<PlayerNameDTO> playerNameDTOs = new ArrayList<>();
+        List<PlayerDTO> playerNameDTOs = new ArrayList<>();
         for (Player player : playersInSession) {
-            playerNameDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerNameDTO(player));
+            playerNameDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
         }
         return  playerNameDTOs;
     }
@@ -38,20 +37,18 @@ public class Controller {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerIDDTO createSession(@RequestBody String playerName) {
-        String sessionID = sessionService.createSession();
-        Player newPlayer = playerService.createPlayer(playerName, sessionID);
-        PlayerIDDTO playerIDDTO = DTOMapper.INSTANCE.convertEntityToPlayerIDDTO(newPlayer);
-        return playerIDDTO;
+    public PlayerDTO createSession(@RequestParam String playerName) {
+        String sessionId = sessionService.createSession();
+        Player newPlayer = playerService.createPlayer(playerName, sessionId);
+        return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
     }
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerIDDTO joinSession(@RequestBody String playerName, @RequestBody String sessionID) {
-        sessionService.joinSession(sessionID);
-        Player newPlayer = playerService.createPlayer(playerName, sessionID);
-        PlayerIDDTO playerIDDTO = DTOMapper.INSTANCE.convertEntityToPlayerIDDTO(newPlayer);
-        return playerIDDTO;
+    public PlayerDTO joinSession(@RequestParam String playerName, String sessionId) {
+        sessionService.joinSession(sessionId);
+        Player newPlayer = playerService.createPlayer(playerName, sessionId);
+        return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
     }
 }
