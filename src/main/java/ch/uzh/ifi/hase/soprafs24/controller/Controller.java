@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 
+import ch.uzh.ifi.hase.soprafs24.rest.dto.JoinDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
@@ -25,8 +26,8 @@ public class Controller {
 
     @GetMapping("/players")
     @ResponseBody
-    public List<PlayerDTO> getPlayersInSession(@RequestBody String sessionID) {
-        List<Player> playersInSession = playerService.getPlayersInSession(sessionID);
+    public List<PlayerDTO> getPlayersInSession(@RequestBody String sessionId) {
+        List<Player> playersInSession = playerService.getPlayersInSession(sessionId);
         List<PlayerDTO> playerNameDTOs = new ArrayList<>();
         for (Player player : playersInSession) {
             playerNameDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
@@ -37,7 +38,7 @@ public class Controller {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerDTO createSession(@RequestParam String playerName) {
+    public PlayerDTO createSession(@RequestBody String playerName) {
         String sessionId = sessionService.createSession();
         Player newPlayer = playerService.createPlayer(playerName, sessionId);
         return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
@@ -46,9 +47,9 @@ public class Controller {
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerDTO joinSession(@RequestParam String playerName, String sessionId) {
-        sessionService.joinSession(sessionId);
-        Player newPlayer = playerService.createPlayer(playerName, sessionId);
+    public PlayerDTO joinSession(@RequestBody JoinDTO joinData) {
+        sessionService.joinSession(joinData.getSessionId());
+        Player newPlayer = playerService.createPlayer(joinData.getPlayerName(), joinData.getSessionId());
         return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
     }
 }
