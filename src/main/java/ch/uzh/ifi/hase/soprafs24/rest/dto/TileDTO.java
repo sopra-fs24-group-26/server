@@ -8,12 +8,12 @@ public class TileDTO {
     @Getter
     @Setter
     // UUID 4 string
-    private String tileID;
+    private String id;
 
     @Getter
     @Setter
     // UUID 4 string
-    private String sessionID;
+    private String sessionId;
 
     @Getter
     @Setter

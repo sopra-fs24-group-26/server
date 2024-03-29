@@ -19,8 +19,8 @@ public interface DTOMapper {
     @Mapping(source = "orderIndex", target = "orderIndex")
     PlayerDTO convertEntityToPlayerDTO(Player player);
 
-    @Mapping(source = "tileID", target = "tileID")
-    @Mapping(source = "sessionID", target = "sessionID")
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "sessionId", target = "sessionId")
     @Mapping(source = "type", target = "type")
     @Mapping(source = "isPlaced", target = "isPlaced")
     @Mapping(source = "rotation", target = "rotation")

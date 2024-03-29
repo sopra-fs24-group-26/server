@@ -23,10 +23,10 @@ public class TileService {
         this.tileRepository = tileRepository;
     }
 
-    public void drawTile(String sessionID, Integer type) {
+    public void drawTile(String sessionId, Integer type) {
         Tile newTile = new Tile();
-        newTile.setTileID(UUID.randomUUID().toString());
-        newTile.setSessionID(sessionID);
+        newTile.setId(UUID.randomUUID().toString());
+        newTile.setSessionId(sessionId);
         newTile.setType(type);
         newTile.setIsPlaced(false);
 
@@ -34,8 +34,8 @@ public class TileService {
         tileRepository.flush();
     }
 
-    public void placeTile(String tileID, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
-        Tile toUpdateTile = tileRepository.findByTileID(tileID);
+    public void placeTile(String tileId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
+        Tile toUpdateTile = tileRepository.findByTileId(tileId);
         toUpdateTile.setRotation(rotation);
         toUpdateTile.setCoordinateX(xCoordinate);
         toUpdateTile.setCoordinateY(yCoordinate);
@@ -45,8 +45,8 @@ public class TileService {
         tileRepository.flush();
     }
 
-    public List<Tile> getTilesInSession(String SessionID) {
-        List<Tile> TileInSession = tileRepository.findAllBySessionID(SessionID);
+    public List<Tile> getTilesInSession(String SessionId) {
+        List<Tile> TileInSession = tileRepository.findAllBySessionId(SessionId);
         return TileInSession;
     }
 }

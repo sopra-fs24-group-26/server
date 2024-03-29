@@ -5,7 +5,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Tile;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.JoinDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.TileDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.TileIDTypeDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.TileIdTypeDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.TilePlaceDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
@@ -61,8 +61,8 @@ public class Controller {
 
     @GetMapping("/tiles")
     @ResponseBody
-    public List<TileDTO> getTilesInSession(@RequestBody String sessionID) {
-        List<Tile> tilesInSession = tileService.getTilesInSession(sessionID);
+    public List<TileDTO> getTilesInSession(@RequestBody String sessionId) {
+        List<Tile> tilesInSession = tileService.getTilesInSession(sessionId);
         List<TileDTO> tileDTO = new ArrayList<>();
 
         for (Tile tile : tilesInSession) {
@@ -75,15 +75,15 @@ public class Controller {
     @PutMapping("/drawTile")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void drawTile(@RequestBody TileIDTypeDTO clientTileIDTypeDTO) {
-        tileService.drawTile(clientTileIDTypeDTO.getSessionID(), clientTileIDTypeDTO.getType());
+    public void drawTile(@RequestBody TileIdTypeDTO clientTileIdTypeDTO) {
+        tileService.drawTile(clientTileIdTypeDTO.getSessionId(), clientTileIdTypeDTO.getType());
     }
 
     @PutMapping("/placeTile")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public void placeTile(@RequestBody TilePlaceDTO tilePlaceDTO) {
-        tileService.placeTile(tilePlaceDTO.getTileID(), tilePlaceDTO.getRotation(),
+        tileService.placeTile(tilePlaceDTO.getId(), tilePlaceDTO.getRotation(),
                 tilePlaceDTO.getCoordinateX(), tilePlaceDTO.getCoordinateY());
     }
 }

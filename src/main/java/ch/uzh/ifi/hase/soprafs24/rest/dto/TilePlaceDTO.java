@@ -8,7 +8,7 @@ public class TilePlaceDTO {
     @Getter
     @Setter
     // UUID 4 string
-    private String tileID;
+    private String id;
 
     @Getter
     @Setter

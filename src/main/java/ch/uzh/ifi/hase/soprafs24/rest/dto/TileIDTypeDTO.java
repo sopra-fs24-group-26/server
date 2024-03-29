@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs24.rest.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class TileIDTypeDTO {
+public class TileIdTypeDTO {
 
     @Getter
     @Setter
@@ -12,5 +12,5 @@ public class TileIDTypeDTO {
 
     @Getter
     @Setter
-    private String sessionID;
+    private String sessionId;
 }
