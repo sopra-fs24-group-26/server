@@ -38,7 +38,7 @@ public class Controller {
         for (Player player : playersInSession) {
             playerNameDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
         }
-        return  playerNameDTOs;
+        return playerNameDTOs;
     }
 
     @PostMapping("/create")

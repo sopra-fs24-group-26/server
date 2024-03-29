@@ -1,4 +1,5 @@
 package ch.uzh.ifi.hase.soprafs24.repository;
+
 import org.springframework.stereotype.Repository;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
@@ -9,5 +10,6 @@ import java.util.List;
 @Repository("tileRepository")
 public interface TileRepository extends JpaRepository<Tile, Long> {
     Tile findByTileID(String tileID);
+
     List<Tile> findAllBySessionID(String sessionID);
 }

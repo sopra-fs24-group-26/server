@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs24.rest.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-
 public class TileDTO {
 
     @Getter
@@ -13,14 +12,14 @@ public class TileDTO {
 
     @Getter
     @Setter
-     // UUID 4 string
+    // UUID 4 string
     private String sessionID;
-    
+
     @Getter
     @Setter
     // What type is which can be seen seen in TileType file
     private Integer type;
-    
+
     // if isPlaced is false, means the tile is in a players hand
     @Getter
     @Setter
