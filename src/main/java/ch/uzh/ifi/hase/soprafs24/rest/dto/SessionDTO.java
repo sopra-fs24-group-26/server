@@ -3,14 +3,17 @@ package ch.uzh.ifi.hase.soprafs24.rest.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class TileIdTypeDTO {
+public class SessionDTO {
 
     @Getter
     @Setter
-    // What type is which can be seen in TileType file
-    private Integer type;
+    private String id;
 
     @Getter
     @Setter
-    private String sessionId;
+    private String turnPlayer;
+
+    @Getter
+    @Setter
+    private Integer playerCount;
 }

@@ -29,6 +29,9 @@ public class PlayerService {
         playerRepository.flush();
         return newPlayer;
     }
+    public Player getPlayerById(String playerId) {
+        return playerRepository.findById(playerId);
+    }
 
     public List<Player> getPlayersInSession(String sessionId) {
         return playerRepository.findAllBySessionId(sessionId);

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository("tileRepository")
 public interface TileRepository extends JpaRepository<Tile, Long> {
-    Tile findByTileId(String tileId);
+    Tile findByid(String id);
 
     List<Tile> findAllBySessionId(String sessionId);
 }

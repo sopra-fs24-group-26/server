@@ -1,12 +1,9 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
+import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.JoinDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.TileDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.TileIdTypeDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.TilePlaceDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
 import ch.uzh.ifi.hase.soprafs24.service.TileService;
@@ -30,17 +27,6 @@ public class Controller {
         this.tileService = tileService;
     }
 
-    @GetMapping("/players")
-    @ResponseBody
-    public List<PlayerDTO> getPlayersInSession(@RequestBody String sessionId) {
-        List<Player> playersInSession = playerService.getPlayersInSession(sessionId);
-        List<PlayerDTO> playerNameDTOs = new ArrayList<>();
-        for (Player player : playersInSession) {
-            playerNameDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
-        }
-        return playerNameDTOs;
-    }
-
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -59,19 +45,6 @@ public class Controller {
         return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
     }
 
-    @GetMapping("/tiles")
-    @ResponseBody
-    public List<TileDTO> getTilesInSession(@RequestBody String sessionId) {
-        List<Tile> tilesInSession = tileService.getTilesInSession(sessionId);
-        List<TileDTO> tileDTO = new ArrayList<>();
-
-        for (Tile tile : tilesInSession) {
-            tileDTO.add(DTOMapper.INSTANCE.convertEntityToTileDTO(tile));
-        }
-
-        return tileDTO;
-    }
-
     @PutMapping("/drawTile")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -85,5 +58,39 @@ public class Controller {
     public void placeTile(@RequestBody TilePlaceDTO tilePlaceDTO) {
         tileService.placeTile(tilePlaceDTO.getId(), tilePlaceDTO.getRotation(),
                 tilePlaceDTO.getCoordinateX(), tilePlaceDTO.getCoordinateY());
+    }
+    @PostMapping("/ping")
+    @ResponseBody
+    public DataDTO getDataByPlayerId(@RequestBody String playerId) {
+        Player player = playerService.getPlayerById(playerId);
+        Session session = sessionService.getSessionById(player.getSessionId());
+        List<Player> players = playerService.getPlayersInSession(session.getId());
+        List<Tile> tiles = tileService.getTilesInSession(session.getId());
+        return createDataDTO(player, session, players, tiles);
+    }
+
+    private List<TileDTO> convertTilesToTileDTOs(List<Tile> tiles) {
+        List<TileDTO> tileDTOs = new ArrayList<>();
+        for (Tile tile : tiles) {
+            tileDTOs.add(DTOMapper.INSTANCE.convertEntityToTileDTO(tile));
+        }
+        return tileDTOs;
+    }
+
+    private List<PlayerDTO> convertPlayersToPlayerDTOs(List<Player> players) {
+        List<PlayerDTO> playerDTOs = new ArrayList<>();
+        for (Player player : players) {
+            playerDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
+        }
+        return playerDTOs;
+    }
+
+    private DataDTO createDataDTO(Player player, Session session, List<Player> players, List<Tile> tiles) {
+        DataDTO dataDTO = new DataDTO();
+        dataDTO.setPlayerDTO(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
+        dataDTO.setSessionDTO(DTOMapper.INSTANCE.convertEntityToSessionDTO(session));
+        dataDTO.setPlayerDTOs(convertPlayersToPlayerDTOs(players));
+        dataDTO.setTileDTOs(convertTilesToTileDTOs(tiles));
+        return dataDTO;
     }
 }

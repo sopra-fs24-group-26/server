@@ -29,24 +29,21 @@ public class TileService {
         newTile.setSessionId(sessionId);
         newTile.setType(type);
         newTile.setIsPlaced(false);
-
         tileRepository.save(newTile);
         tileRepository.flush();
     }
 
     public void placeTile(String tileId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
-        Tile toUpdateTile = tileRepository.findByTileId(tileId);
+        Tile toUpdateTile = tileRepository.findByid(tileId);
         toUpdateTile.setRotation(rotation);
         toUpdateTile.setCoordinateX(xCoordinate);
         toUpdateTile.setCoordinateY(yCoordinate);
         toUpdateTile.setIsPlaced(true);
-
         tileRepository.save(toUpdateTile);
         tileRepository.flush();
     }
 
     public List<Tile> getTilesInSession(String SessionId) {
-        List<Tile> TileInSession = tileRepository.findAllBySessionId(SessionId);
-        return TileInSession;
+        return tileRepository.findAllBySessionId(SessionId);
     }
 }
