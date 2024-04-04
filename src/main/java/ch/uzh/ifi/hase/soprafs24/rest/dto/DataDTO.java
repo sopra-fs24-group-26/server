@@ -3,22 +3,23 @@ package ch.uzh.ifi.hase.soprafs24.rest.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class TilePlaceDTO {
+import java.util.List;
+
+public class DataDTO {
 
     @Getter
     @Setter
-    // UUID 4 string
-    private String id;
+    PlayerDTO playerDTO;
 
     @Getter
     @Setter
-    private Integer rotation;
+    SessionDTO sessionDTO;
 
     @Getter
     @Setter
-    private Integer coordinateX;
+    List<PlayerDTO> playerDTOs;
 
     @Getter
     @Setter
-    private Integer coordinateY;
+    List<TileDTO> tileDTOs;
 }

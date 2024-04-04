@@ -10,4 +10,6 @@ import java.util.List;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     //Player findById(String playerId);
     List<Player> findAllBySessionId(String sessionId);
+
+    Player findById(String playerId);
 }

@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs24.service;
 
+
 import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,9 @@ public class SessionService {
         Session sessionById = sessionRepository.findById(sessionId);
         Integer curr = sessionById.getPlayerCount();
         sessionById.setPlayerCount(curr + 1);
+    }
+
+    public Session getSessionById(String sessionId) {
+        return sessionRepository.findById(sessionId);
     }
 }
