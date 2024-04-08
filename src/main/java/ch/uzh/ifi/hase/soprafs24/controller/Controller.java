@@ -10,6 +10,7 @@ import ch.uzh.ifi.hase.soprafs24.service.TileService;
 import ch.uzh.ifi.hase.soprafs24.service.PlayerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,7 @@ public class Controller {
     @ResponseBody
     public DataDTO getDataByPlayerId(@RequestBody String playerId) {
         Player player = playerService.getPlayerById(playerId);
+        if (player == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
         Session session = sessionService.getSessionById(player.getSessionId());
         List<Player> players = playerService.getPlayersInSession(session.getId());
         List<Tile> tiles = tileService.getTilesInSession(session.getId());
