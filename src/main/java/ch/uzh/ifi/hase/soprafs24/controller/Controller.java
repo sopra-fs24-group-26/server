@@ -49,8 +49,8 @@ public class Controller {
     @PostMapping("/ping")
     @ResponseBody
     public DataDTO getDataByPlayerId(@RequestBody String playerId) {
+        validatePlayerId(playerId);
         Player player = playerService.getPlayerById(playerId);
-        if (player == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
         Session session = sessionService.getSessionById(player.getSessionId());
         List<Player> players = playerService.getPlayersInSession(session.getId());
         List<Tile> tiles = tileService.getTilesInSession(session.getId());
@@ -74,6 +74,7 @@ public class Controller {
 
     @DeleteMapping("/player")
     public void deletePlayer(@RequestBody String playerId) {
+        validatePlayerId(playerId);
         playerService.deletePlayer(playerId);
     }
     private List<TileDTO> convertTilesToTileDTOs(List<Tile> tiles) {
@@ -90,6 +91,11 @@ public class Controller {
             playerDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
         }
         return playerDTOs;
+    }
+
+    private void validatePlayerId(String playerId) {
+        Player player = playerService.getPlayerById(playerId);
+        if (player == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
     }
 
     private DataDTO createDataDTO(Session session, List<Player> players, List<Tile> tiles) {

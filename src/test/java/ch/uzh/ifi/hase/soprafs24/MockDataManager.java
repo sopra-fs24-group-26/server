@@ -28,7 +28,7 @@ public class MockDataManager {
         Session session = new Session();
         session.setId(UUID.randomUUID().toString());
         session.setPlayerCount(4);
-        session.setTurnPlayer("test-id");
+        session.setTurnPlayer(0);
         return session;
     }
 
