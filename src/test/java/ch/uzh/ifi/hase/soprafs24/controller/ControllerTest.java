@@ -93,15 +93,11 @@ public class ControllerTest {
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.playerDTO.id", is(mockedPlayer.getId())))
-                .andExpect(jsonPath("$.playerDTO.name", is(mockedPlayer.getName())))
-                .andExpect(jsonPath("$.playerDTO.sessionId", is(mockedPlayer.getSessionId())))
-                .andExpect(jsonPath("$.playerDTO.role", is(nullValue()))) // Assuming the role is not set in the mock
-                .andExpect(jsonPath("$.playerDTO.orderIndex", is(nullValue()))) // Assuming the order index is not set in the mock
-                .andExpect(jsonPath("$.sessionDTO.id", is(mockedSession.getId())))
-                .andExpect(jsonPath("$.sessionDTO.playerCount", is(players.size())))
-                .andExpect(jsonPath("$.playerDTOs.length()", is(players.size()))) // Assuming the number of players in the list is equal to the size of 'players' list
-                .andExpect(jsonPath("$.tileDTOs.length()", is(tiles.size()))); // Assuming the number of tiles in the list is equal to the size of 'tiles' list
+// Assuming the order index is not set in the mock
+                .andExpect(jsonPath("$.session.id", is(mockedSession.getId())))
+                .andExpect(jsonPath("$.session.playerCount", is(players.size())))
+                .andExpect(jsonPath("$.players.length()", is(players.size()))) // Assuming the number of players in the list is equal to the size of 'players' list
+                .andExpect(jsonPath("$.tiles.length()", is(tiles.size()))); // Assuming the number of tiles in the list is equal to the size of 'tiles' list
     }
 
     @Test

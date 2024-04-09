@@ -9,17 +9,13 @@ public class DataDTO {
 
     @Getter
     @Setter
-    PlayerDTO playerDTO;
+    SessionDTO session;
 
     @Getter
     @Setter
-    SessionDTO sessionDTO;
+    List<PlayerDTO> players;
 
     @Getter
     @Setter
-    List<PlayerDTO> playerDTOs;
-
-    @Getter
-    @Setter
-    List<TileDTO> tileDTOs;
+    List<TileDTO> tiles;
 }

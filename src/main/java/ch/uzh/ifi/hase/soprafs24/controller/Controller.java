@@ -68,7 +68,7 @@ public class Controller {
         Session session = sessionService.getSessionById(player.getSessionId());
         List<Player> players = playerService.getPlayersInSession(session.getId());
         List<Tile> tiles = tileService.getTilesInSession(session.getId());
-        return createDataDTO(player, session, players, tiles);
+        return createDataDTO(session, players, tiles);
     }
 
     private List<TileDTO> convertTilesToTileDTOs(List<Tile> tiles) {
@@ -87,12 +87,11 @@ public class Controller {
         return playerDTOs;
     }
 
-    private DataDTO createDataDTO(Player player, Session session, List<Player> players, List<Tile> tiles) {
+    private DataDTO createDataDTO(Session session, List<Player> players, List<Tile> tiles) {
         DataDTO dataDTO = new DataDTO();
-        dataDTO.setPlayerDTO(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
-        dataDTO.setSessionDTO(DTOMapper.INSTANCE.convertEntityToSessionDTO(session));
-        dataDTO.setPlayerDTOs(convertPlayersToPlayerDTOs(players));
-        dataDTO.setTileDTOs(convertTilesToTileDTOs(tiles));
+        dataDTO.setSession(DTOMapper.INSTANCE.convertEntityToSessionDTO(session));
+        dataDTO.setPlayers(convertPlayersToPlayerDTOs(players));
+        dataDTO.setTiles(convertTilesToTileDTOs(tiles));
         return dataDTO;
     }
 }
