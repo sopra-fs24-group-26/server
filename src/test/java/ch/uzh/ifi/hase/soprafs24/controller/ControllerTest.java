@@ -93,11 +93,10 @@ public class ControllerTest {
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isOk())
-// Assuming the order index is not set in the mock
                 .andExpect(jsonPath("$.session.id", is(mockedSession.getId())))
                 .andExpect(jsonPath("$.session.playerCount", is(players.size())))
-                .andExpect(jsonPath("$.players.length()", is(players.size()))) // Assuming the number of players in the list is equal to the size of 'players' list
-                .andExpect(jsonPath("$.tiles.length()", is(tiles.size()))); // Assuming the number of tiles in the list is equal to the size of 'tiles' list
+                .andExpect(jsonPath("$.players.length()", is(players.size())))
+                .andExpect(jsonPath("$.tiles.length()", is(tiles.size())));
     }
 
     @Test

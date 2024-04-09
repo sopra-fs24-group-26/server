@@ -18,10 +18,15 @@ public class Session implements Serializable {
     @Getter
     @Setter
     @Column
-    private String turnPlayer;
+    private Integer turnPlayer;
 
     @Getter
     @Setter
     @Column(nullable = false)
     private Integer playerCount;
+
+    @Getter
+    @Setter
+    @Column
+    private String seed;
 }

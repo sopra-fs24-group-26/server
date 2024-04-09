@@ -25,6 +25,8 @@ public class SessionService {
         newSession.setPlayerCount(1);
         String sessionId = UUID.randomUUID().toString();
         newSession.setId(sessionId);
+        newSession.setTurnPlayer(0);
+        newSession.setSeed(UUID.randomUUID().toString());
         sessionRepository.save(newSession);
         sessionRepository.flush();
         return sessionId;

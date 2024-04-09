@@ -29,11 +29,23 @@ public class PlayerService {
         playerRepository.flush();
         return newPlayer;
     }
+
+    public void deletePlayer(String playerId) {
+        String cleanedPlayerId = cleanId(playerId);
+        playerRepository.deleteById(cleanedPlayerId);
+    }
+
     public Player getPlayerById(String playerId) {
-        return playerRepository.findById(playerId);
+        String cleanedPlayerId = cleanId(playerId);
+        return playerRepository.findById(cleanedPlayerId);
     }
 
     public List<Player> getPlayersInSession(String sessionId) {
-        return playerRepository.findAllBySessionId(sessionId);
+        String cleanedSessionId = cleanId(sessionId);
+        return playerRepository.findAllBySessionId(cleanedSessionId);
+    }
+
+    private String cleanId(String id) {
+        return id.replaceAll("^\"|\"$", "");
     }
 }

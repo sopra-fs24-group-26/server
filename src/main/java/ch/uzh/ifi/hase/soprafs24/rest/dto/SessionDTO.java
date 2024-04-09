@@ -11,9 +11,13 @@ public class SessionDTO {
 
     @Getter
     @Setter
-    private String turnPlayer;
+    private Integer turnPlayer;
 
     @Getter
     @Setter
     private Integer playerCount;
+
+    @Getter
+    @Setter
+    private String seed;
 }
