@@ -77,6 +77,7 @@ public class Controller {
         validatePlayerId(playerId);
         playerService.deletePlayer(playerId);
     }
+
     private List<TileDTO> convertTilesToTileDTOs(List<Tile> tiles) {
         List<TileDTO> tileDTOs = new ArrayList<>();
         for (Tile tile : tiles) {
