@@ -36,16 +36,16 @@ public class Tile implements Serializable {
 
     @Getter
     @Setter
-    @Column(nullable = true)
+    @Column
     private Integer rotation;
 
     @Getter
     @Setter
-    @Column(nullable = true)
+    @Column
     private Integer coordinateX;
 
     @Getter
     @Setter
-    @Column(nullable = true)
+    @Column
     private Integer coordinateY;
 }

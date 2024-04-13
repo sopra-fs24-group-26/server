@@ -28,10 +28,5 @@ public class Player implements Serializable {
     @Getter
     @Setter
     @Column
-    private Integer role;
-
-    @Getter
-    @Setter
-    @Column
     private Integer orderIndex;
 }

@@ -46,7 +46,6 @@ public class MockDataManager {
             player.setId(UUID.randomUUID().toString());
             player.setName("Player" + (i + 1));
             player.setSessionId(sessionId);
-            player.setRole(i); // Assigning some arbitrary role
             player.setOrderIndex(i); // Assigning some arbitrary order index
             players.add(player);
         }
