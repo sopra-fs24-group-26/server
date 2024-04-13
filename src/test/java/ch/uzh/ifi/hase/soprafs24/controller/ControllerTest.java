@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.JoinDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.NameDTO;
 import ch.uzh.ifi.hase.soprafs24.service.PlayerService;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
 import ch.uzh.ifi.hase.soprafs24.service.TileService;
@@ -21,8 +22,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -124,7 +124,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void deletePlayer_validId_throwsNotFound() throws Exception {
+    public void deletePlayer_invalidId_throwsNotFound() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
         Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId());
 
@@ -132,4 +132,29 @@ public class ControllerTest {
 
         mockMvc.perform(deleteRequest).andExpect(status().isNotFound());
     }
+
+    @Test
+    public void putPlayerName_validId_isOK() throws Exception {
+        Session mockedSession = MockDataManager.mockSession();
+        Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId());
+        NameDTO nameDTO = MockDataManager.mockNameDTO("gugus2", mockedPlayer.getId());
+
+        given(playerService.getPlayerById(mockedPlayer.getId())).willReturn(mockedPlayer);
+
+        MockHttpServletRequestBuilder putRequest = put("/name").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(nameDTO));
+
+        mockMvc.perform(putRequest).andExpect(status().isOk());
+    }
+
+    @Test
+    public void putPlayerName_invalidId_isNOTFOUND() throws Exception {
+
+        NameDTO nameDTO = MockDataManager.mockNameDTO("gugus2", "333");
+
+        MockHttpServletRequestBuilder putRequest = put("/name").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(nameDTO));
+
+
+        mockMvc.perform(putRequest).andExpect(status().isNotFound());
+    }
+
 }

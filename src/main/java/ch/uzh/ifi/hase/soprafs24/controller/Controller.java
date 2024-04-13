@@ -57,6 +57,12 @@ public class Controller {
         return createDataDTO(session, players, tiles);
     }
 
+    @PutMapping("/name")
+    public void putPlayerName(@RequestBody NameDTO nameDTO) {
+        validatePlayerId(nameDTO.getPlayerId());
+        playerService.updateName(nameDTO);
+    }
+
     @PutMapping("/drawTile")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody

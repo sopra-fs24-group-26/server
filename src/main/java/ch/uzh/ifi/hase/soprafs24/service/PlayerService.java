@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs24.service;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.NameDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,13 @@ public class PlayerService {
         newPlayer = playerRepository.save(newPlayer);
         playerRepository.flush();
         return newPlayer;
+    }
+
+    public void updateName(NameDTO nameDTO) {
+        Player player = getPlayerById(nameDTO.getPlayerId());
+        player.setName(nameDTO.getName());
+        playerRepository.save(player);
+        playerRepository.flush();
     }
 
     public void deletePlayer(String playerId) {

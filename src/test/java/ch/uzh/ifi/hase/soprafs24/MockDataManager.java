@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.JoinDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.NameDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,14 @@ public class MockDataManager {
         joinDTO.setSessionId(sessionId);
         return joinDTO;
     }
+
+    public static NameDTO mockNameDTO(String playerName, String playerId) {
+        NameDTO nameDTO = new NameDTO();
+        nameDTO.setName(playerName);
+        nameDTO.setPlayerId(playerId);
+        return nameDTO;
+    }
+
     public static List<Player> generateMockPlayers(String sessionId) {
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
