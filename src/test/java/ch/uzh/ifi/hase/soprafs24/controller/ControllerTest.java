@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -93,11 +94,10 @@ public class ControllerTest {
 
         mockMvc.perform(postRequest)
                 .andExpect(status().isOk())
-// Assuming the order index is not set in the mock
                 .andExpect(jsonPath("$.session.id", is(mockedSession.getId())))
                 .andExpect(jsonPath("$.session.playerCount", is(players.size())))
-                .andExpect(jsonPath("$.players.length()", is(players.size()))) // Assuming the number of players in the list is equal to the size of 'players' list
-                .andExpect(jsonPath("$.tiles.length()", is(tiles.size()))); // Assuming the number of tiles in the list is equal to the size of 'tiles' list
+                .andExpect(jsonPath("$.players.length()", is(players.size())))
+                .andExpect(jsonPath("$.tiles.length()", is(tiles.size())));
     }
 
     @Test
@@ -108,5 +108,28 @@ public class ControllerTest {
         MockHttpServletRequestBuilder postRequest = post("/ping").content(mockedPlayer.getId());
 
         mockMvc.perform(postRequest).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deletePlayer_validId_isOk() throws Exception {
+        Session mockedSession = MockDataManager.mockSession();
+        Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId());
+
+        Mockito.doNothing().when(playerService).deletePlayer(mockedPlayer.getId());
+        given(playerService.getPlayerById(mockedPlayer.getId())).willReturn(mockedPlayer);
+
+        MockHttpServletRequestBuilder deleteRequest = delete("/player").content(mockedPlayer.getId());
+
+        mockMvc.perform(deleteRequest).andExpect(status().isOk());
+    }
+
+    @Test
+    public void deletePlayer_validId_throwsNotFound() throws Exception {
+        Session mockedSession = MockDataManager.mockSession();
+        Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId());
+
+        MockHttpServletRequestBuilder deleteRequest = delete("/player").content(mockedPlayer.getId());
+
+        mockMvc.perform(deleteRequest).andExpect(status().isNotFound());
     }
 }

@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
@@ -29,11 +30,23 @@ public class PlayerService {
         playerRepository.flush();
         return newPlayer;
     }
+
+    public void deletePlayer(String playerId) {
+        String cleanedPlayerId = cleanId(playerId);
+        playerRepository.deleteById(cleanedPlayerId);
+    }
+
     public Player getPlayerById(String playerId) {
-        return playerRepository.findById(playerId);
+        String cleanedPlayerId = cleanId(playerId);
+        return playerRepository.findById(cleanedPlayerId);
     }
 
     public List<Player> getPlayersInSession(String sessionId) {
-        return playerRepository.findAllBySessionId(sessionId);
+        String cleanedSessionId = cleanId(sessionId);
+        return playerRepository.findAllBySessionId(cleanedSessionId);
+    }
+
+    private String cleanId(String id) {
+        return id.replaceAll("^\"|\"$", "");
     }
 }
