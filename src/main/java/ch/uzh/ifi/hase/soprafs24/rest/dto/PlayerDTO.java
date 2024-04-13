@@ -19,9 +19,5 @@ public class PlayerDTO {
 
     @Getter
     @Setter
-    private Integer role;
-
-    @Getter
-    @Setter
     private Integer orderIndex;
 }

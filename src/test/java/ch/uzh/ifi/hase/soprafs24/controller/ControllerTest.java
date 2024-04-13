@@ -55,7 +55,6 @@ public class ControllerTest {
                 .andExpect(jsonPath("$.id", is(mockPlayer.getId())))
                 .andExpect(jsonPath("$.sessionId", is(mockPlayer.getSessionId())))
                 .andExpect(jsonPath("$.name", is(mockPlayer.getName())))
-                .andExpect(jsonPath("$.role", is(mockPlayer.getRole())))
                 .andExpect(jsonPath("$.orderIndex", is(mockPlayer.getOrderIndex())));
     }
 
@@ -74,7 +73,6 @@ public class ControllerTest {
                 .andExpect(jsonPath("$.id", is(mockPlayer.getId())))
                 .andExpect(jsonPath("$.sessionId", is(mockPlayer.getSessionId())))
                 .andExpect(jsonPath("$.name", is(mockPlayer.getName())))
-                .andExpect(jsonPath("$.role", is(mockPlayer.getRole())))
                 .andExpect(jsonPath("$.orderIndex", is(mockPlayer.getOrderIndex())));
     }
     @Test

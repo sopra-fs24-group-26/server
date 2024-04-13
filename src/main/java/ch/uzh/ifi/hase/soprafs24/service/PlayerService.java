@@ -25,6 +25,7 @@ public class PlayerService {
         Player newPlayer = new Player();
         newPlayer.setName(playerName);
         newPlayer.setSessionId(sessionId);
+        newPlayer.setOrderIndex(getPlayersInSession(sessionId).size() - 1);
         newPlayer.setId(UUID.randomUUID().toString());
         newPlayer = playerRepository.save(newPlayer);
         playerRepository.flush();
