@@ -45,7 +45,7 @@ public class Controller {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public PlayerDTO joinSession(@RequestBody JoinDTO joinData) {
-        sessionService.joinSession(joinData.getSessionId());
+        sessionService.validateSessionId(joinData.getSessionId());
         Player newPlayer = playerService.createPlayer(joinData.getPlayerName(), joinData.getSessionId());
         return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
     }

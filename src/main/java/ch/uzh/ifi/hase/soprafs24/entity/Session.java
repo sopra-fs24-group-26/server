@@ -22,11 +22,6 @@ public class Session implements Serializable {
 
     @Getter
     @Setter
-    @Column(nullable = false)
-    private Integer playerCount;
-
-    @Getter
-    @Setter
     @Column
     private String seed;
 }

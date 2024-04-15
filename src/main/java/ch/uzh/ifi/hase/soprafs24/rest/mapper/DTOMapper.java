@@ -31,7 +31,6 @@ public interface DTOMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "turnPlayer", target = "turnPlayer")
-    @Mapping(source = "playerCount", target = "playerCount")
     @Mapping(source = "seed", target = "seed")
     SessionDTO convertEntityToSessionDTO(Session session);
 }
