@@ -31,12 +31,6 @@ public class Tile implements Serializable {
     @Getter
     @Setter
     @Column
-    // if isPlaced is false, means the tile is in a players hand
-    private Boolean isPlaced;
-
-    @Getter
-    @Setter
-    @Column
     private Integer rotation;
 
     @Getter

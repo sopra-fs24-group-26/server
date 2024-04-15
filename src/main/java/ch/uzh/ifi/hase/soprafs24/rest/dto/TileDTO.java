@@ -20,11 +20,6 @@ public class TileDTO {
     // What type is which can be seen seen in TileType file
     private Integer type;
 
-    // if isPlaced is false, means the tile is in a players hand
-    @Getter
-    @Setter
-    private Boolean isPlaced;
-
     @Getter
     @Setter
     private Integer rotation;

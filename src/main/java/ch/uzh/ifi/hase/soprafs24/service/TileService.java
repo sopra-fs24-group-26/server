@@ -28,7 +28,6 @@ public class TileService {
         toUpdateTile.setRotation(rotation);
         toUpdateTile.setCoordinateX(xCoordinate);
         toUpdateTile.setCoordinateY(yCoordinate);
-        toUpdateTile.setIsPlaced(true);
         tileRepository.save(toUpdateTile);
         tileRepository.flush();
     }

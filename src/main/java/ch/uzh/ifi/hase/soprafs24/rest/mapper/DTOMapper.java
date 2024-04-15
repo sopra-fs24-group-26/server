@@ -22,7 +22,6 @@ public interface DTOMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "sessionId", target = "sessionId")
     @Mapping(source = "type", target = "type")
-    @Mapping(source = "isPlaced", target = "isPlaced")
     @Mapping(source = "rotation", target = "rotation")
     @Mapping(source = "coordinateX", target = "coordinateX")
     @Mapping(source = "coordinateY", target = "coordinateY")
