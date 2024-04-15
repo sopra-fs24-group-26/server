@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMappingFunctions;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
 import ch.uzh.ifi.hase.soprafs24.service.TileService;
 import ch.uzh.ifi.hase.soprafs24.service.PlayerService;
@@ -87,22 +88,6 @@ public class Controller {
         playerService.distributeOrderIndex(sessionID);
     }
 
-    private List<TileDTO> convertTilesToTileDTOs(List<Tile> tiles) {
-        List<TileDTO> tileDTOs = new ArrayList<>();
-        for (Tile tile : tiles) {
-            tileDTOs.add(DTOMapper.INSTANCE.convertEntityToTileDTO(tile));
-        }
-        return tileDTOs;
-    }
-
-    private List<PlayerDTO> convertPlayersToPlayerDTOs(List<Player> players) {
-        List<PlayerDTO> playerDTOs = new ArrayList<>();
-        for (Player player : players) {
-            playerDTOs.add(DTOMapper.INSTANCE.convertEntityToPlayerDTO(player));
-        }
-        return playerDTOs;
-    }
-
     private void validatePlayerId(String playerId) {
         Player player = playerService.getPlayerById(playerId);
         if (player == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
@@ -111,8 +96,8 @@ public class Controller {
     private DataDTO createDataDTO(Session session, List<Player> players, List<Tile> tiles) {
         DataDTO dataDTO = new DataDTO();
         dataDTO.setSession(DTOMapper.INSTANCE.convertEntityToSessionDTO(session));
-        dataDTO.setPlayers(convertPlayersToPlayerDTOs(players));
-        dataDTO.setTiles(convertTilesToTileDTOs(tiles));
+        dataDTO.setPlayers(DTOMappingFunctions.convertPlayersToPlayerDTOs(players));
+        dataDTO.setTiles(DTOMappingFunctions.convertTilesToTileDTOs(tiles));
         return dataDTO;
     }
 }
