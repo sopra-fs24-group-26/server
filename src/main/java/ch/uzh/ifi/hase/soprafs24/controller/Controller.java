@@ -50,6 +50,14 @@ public class Controller {
         return newPlayer.getId();
     }
 
+    @PostMapping("/validate")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public Boolean checkPlayerId(@RequestBody String playerId) {
+        validatePlayerId(playerId);
+        return true;
+    }    
+
     @PostMapping("/ping")
     @ResponseBody
     public DataDTO getDataByPlayerId(@RequestBody String playerId) {
