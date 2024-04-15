@@ -25,12 +25,6 @@ public class Tile implements Serializable {
     @Getter
     @Setter
     @Column
-    // What type is which can be seen seen in TileType file
-    private Integer type;
-
-    @Getter
-    @Setter
-    @Column
     private Integer rotation;
 
     @Getter

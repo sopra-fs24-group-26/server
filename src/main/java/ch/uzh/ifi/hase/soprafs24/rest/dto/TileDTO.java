@@ -17,11 +17,6 @@ public class TileDTO {
 
     @Getter
     @Setter
-    // What type is which can be seen seen in TileType file
-    private Integer type;
-
-    @Getter
-    @Setter
     private Integer rotation;
 
     @Getter
