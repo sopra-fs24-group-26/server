@@ -81,7 +81,7 @@ public class Controller {
         tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(), tileDTO.getCoordinateY());
     }
 
-    @DeleteMapping("/player")
+    @PostMapping("/deletePlayer")
     public void deletePlayer(@RequestBody String playerId) {
         validatePlayerId(playerId);
         playerService.deletePlayer(playerId);
