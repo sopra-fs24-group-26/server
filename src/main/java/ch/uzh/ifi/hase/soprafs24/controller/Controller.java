@@ -38,7 +38,7 @@ public class Controller {
     @ResponseBody
     public String createSession(@RequestBody String playerName) {
         String sessionId = sessionService.createSession();
-        Player newPlayer = playerService.createPlayer(playerName, sessionId);
+        Player newPlayer = playerService.createPlayer(DTOMappingFunctions.cleanString(playerName), sessionId);
         return newPlayer.getId();
     }
 
@@ -60,14 +60,14 @@ public class Controller {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public Boolean checkPlayerId(@RequestBody String playerId) {
-        return playerService.getPlayerById(playerId) != null;
+        return playerService.getPlayerById(DTOMappingFunctions.cleanString(playerId)) != null;
     }    
 
     @PostMapping("/ping")
     @ResponseBody
     public DataDTO getDataByPlayerId(@RequestBody String playerId) {
-        validatePlayerId(playerId);
-        Player player = playerService.getPlayerById(playerId);
+        validatePlayerId(DTOMappingFunctions.cleanString(playerId));
+        Player player = playerService.getPlayerById(DTOMappingFunctions.cleanString(playerId));
         Session session = sessionService.getSessionById(player.getSessionId());
         List<Player> players = playerService.getPlayersInSession(session.getId());
         List<Tile> tiles = tileService.getTilesInSession(session.getId());
@@ -83,13 +83,13 @@ public class Controller {
 
     @PostMapping("/deletePlayer")
     public void deletePlayer(@RequestBody String playerId) {
-        validatePlayerId(playerId);
-        playerService.deletePlayer(playerId);
+        validatePlayerId(DTOMappingFunctions.cleanString(playerId));
+        playerService.deletePlayer(DTOMappingFunctions.cleanString(playerId));
     }
 
     @PutMapping("/distributeOrderIndex")
     public void distributeOrderIndex(@RequestBody String sessionID) {
-        playerService.distributeOrderIndex(sessionID);
+        playerService.distributeOrderIndex(DTOMappingFunctions.cleanString(sessionID));
     }
 
     private void validatePlayerId(String playerId) {

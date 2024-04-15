@@ -24,4 +24,9 @@ public class DTOMappingFunctions {
         }
         return playerDTOs;
     }
+
+    public static String cleanString(String input) {
+        return input.replaceAll("^\"|\"$", "");
+    }
+
 }

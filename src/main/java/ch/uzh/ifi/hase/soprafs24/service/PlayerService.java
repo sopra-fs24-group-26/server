@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs24.service;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
+import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMappingFunctions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,22 +34,15 @@ public class PlayerService {
     }
 
     public void deletePlayer(String playerId) {
-        String cleanedPlayerId = cleanId(playerId);
-        playerRepository.deleteById(cleanedPlayerId);
+        playerRepository.deleteById(playerId);
     }
 
     public Player getPlayerById(String playerId) {
-        String cleanedPlayerId = cleanId(playerId);
-        return playerRepository.findById(cleanedPlayerId);
+        return playerRepository.findById(playerId);
     }
 
     public List<Player> getPlayersInSession(String sessionId) {
-        String cleanedSessionId = cleanId(sessionId);
-        return playerRepository.findAllBySessionId(cleanedSessionId);
-    }
-
-    private String cleanId(String id) {
-        return id.replaceAll("^\"|\"$", "");
+        return playerRepository.findAllBySessionId(sessionId);
     }
 
     public void distributeOrderIndex(String sessionID){
