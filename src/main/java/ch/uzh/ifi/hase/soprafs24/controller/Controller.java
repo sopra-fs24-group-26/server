@@ -60,8 +60,7 @@ public class Controller {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public Boolean checkPlayerId(@RequestBody String playerId) {
-        validatePlayerId(playerId);
-        return true;
+        return playerService.getPlayerById(playerId) != null;
     }    
 
     @PostMapping("/ping")
