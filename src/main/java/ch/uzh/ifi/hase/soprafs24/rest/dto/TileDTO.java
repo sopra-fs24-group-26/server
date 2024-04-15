@@ -7,12 +7,10 @@ public class TileDTO {
 
     @Getter
     @Setter
-    // UUID 4 string
     private String id;
 
     @Getter
     @Setter
-    // UUID 4 string
     private String sessionId;
 
     @Getter

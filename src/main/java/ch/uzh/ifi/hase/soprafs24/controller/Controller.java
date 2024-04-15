@@ -13,12 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-
 
 @RestController
 public class Controller {
@@ -48,7 +45,7 @@ public class Controller {
     public String joinSession(@RequestBody JoinDTO joinData) {
         sessionService.validateSessionId(joinData.getSessionId());
 
-        if (playerService.getPlayersInSession(joinData.getSessionId()).size() == 10){
+        if (playerService.getPlayersInSession(joinData.getSessionId()).size() == 10) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player maximum has been reached");
         }
 
@@ -61,7 +58,7 @@ public class Controller {
     @ResponseBody
     public Boolean checkPlayerId(@RequestBody String playerId) {
         return playerService.getPlayerById(DTOMappingFunctions.cleanString(playerId)) != null;
-    }    
+    }
 
     @PostMapping("/ping")
     @ResponseBody
@@ -78,7 +75,8 @@ public class Controller {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public void placeTile(@RequestBody TileDTO tileDTO) {
-        tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(), tileDTO.getCoordinateY());
+        tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(),
+                tileDTO.getCoordinateY());
     }
 
     @PostMapping("/deletePlayer")
@@ -94,7 +92,8 @@ public class Controller {
 
     private void validatePlayerId(String playerId) {
         Player player = playerService.getPlayerById(playerId);
-        if (player == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
+        if (player == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
     }
 
     private DataDTO createDataDTO(Session session, List<Player> players, List<Tile> tiles) {

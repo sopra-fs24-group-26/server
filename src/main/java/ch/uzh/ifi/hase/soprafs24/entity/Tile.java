@@ -13,13 +13,11 @@ public class Tile implements Serializable {
     @Id
     @Getter
     @Setter
-    // UUID 4 string
     private String id;
 
     @Getter
     @Setter
     @Column
-    // UUID 4 string
     private String sessionId;
 
     @Getter

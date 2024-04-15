@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs24.service;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
-import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMappingFunctions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,11 +46,9 @@ public class PlayerService {
 
     public void distributeOrderIndex(String sessionID){
         List<Player> players = this.getPlayersInSession(sessionID);
-        int currentOrderIndex = 0;
-        for (Player player : players){
-            player.setOrderIndex(currentOrderIndex);
-            currentOrderIndex++;
-
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            player.setOrderIndex(i);
             playerRepository.save(player);
             playerRepository.flush();
         }
