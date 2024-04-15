@@ -72,9 +72,8 @@ public class Controller {
     @PutMapping("/placeTile")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
-    public void placeTile(@RequestBody TilePlaceDTO tilePlaceDTO) {
-        tileService.placeTile(tilePlaceDTO.getId(), tilePlaceDTO.getRotation(),
-                tilePlaceDTO.getCoordinateX(), tilePlaceDTO.getCoordinateY());
+    public void placeTile(@RequestBody TileDTO tileDTO) {
+        tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(), tileDTO.getCoordinateY());
     }
 
     @DeleteMapping("/player")

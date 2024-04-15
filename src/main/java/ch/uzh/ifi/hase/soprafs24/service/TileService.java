@@ -23,12 +23,15 @@ public class TileService {
         this.tileRepository = tileRepository;
     }
 
-    public void placeTile(String tileId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
-        Tile toUpdateTile = tileRepository.findByid(tileId);
-        toUpdateTile.setRotation(rotation);
-        toUpdateTile.setCoordinateX(xCoordinate);
-        toUpdateTile.setCoordinateY(yCoordinate);
-        tileRepository.save(toUpdateTile);
+    public void createTile(String tileId, String sessionId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
+        Tile newTile = new Tile();
+        newTile.setId(tileId);
+        newTile.setSessionId(sessionId);
+        newTile.setRotation(rotation);
+        newTile.setCoordinateX(xCoordinate);
+        newTile.setCoordinateY(yCoordinate);
+
+        tileRepository.save(newTile);
         tileRepository.flush();
     }
 
