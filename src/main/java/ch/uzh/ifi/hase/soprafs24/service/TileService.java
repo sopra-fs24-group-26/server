@@ -23,16 +23,6 @@ public class TileService {
         this.tileRepository = tileRepository;
     }
 
-    public void drawTile(String sessionId, Integer type) {
-        Tile newTile = new Tile();
-        newTile.setId(UUID.randomUUID().toString());
-        newTile.setSessionId(sessionId);
-        newTile.setType(type);
-        newTile.setIsPlaced(false);
-        tileRepository.save(newTile);
-        tileRepository.flush();
-    }
-
     public void placeTile(String tileId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
         Tile toUpdateTile = tileRepository.findByid(tileId);
         toUpdateTile.setRotation(rotation);

@@ -14,6 +14,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 public class Controller {
@@ -57,13 +61,6 @@ public class Controller {
         return createDataDTO(session, players, tiles);
     }
 
-    @PutMapping("/drawTile")
-    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public void drawTile(@RequestBody TileIdTypeDTO clientTileIdTypeDTO) {
-        tileService.drawTile(clientTileIdTypeDTO.getSessionId(), clientTileIdTypeDTO.getType());
-    }
-
     @PutMapping("/placeTile")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
@@ -76,6 +73,11 @@ public class Controller {
     public void deletePlayer(@RequestBody String playerId) {
         validatePlayerId(playerId);
         playerService.deletePlayer(playerId);
+    }
+
+    @PutMapping("/distributeOrderIndex")
+    public void distributeOrderIndex(@RequestBody String sessionID) {
+        playerService.distributeOrderIndex(sessionID);
     }
 
     private List<TileDTO> convertTilesToTileDTOs(List<Tile> tiles) {

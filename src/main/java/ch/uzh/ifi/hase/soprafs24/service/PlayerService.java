@@ -50,4 +50,17 @@ public class PlayerService {
     private String cleanId(String id) {
         return id.replaceAll("^\"|\"$", "");
     }
+
+    public void distributeOrderIndex(String sessionID){
+        List<Player> players = this.getPlayersInSession(sessionID);
+        int currentOrderIndex = 0;
+        for (Player player : players){
+            player.setOrderIndex(currentOrderIndex);
+            currentOrderIndex++;
+
+            playerRepository.save(player);
+            playerRepository.flush();
+        }
+
+    }
 }
