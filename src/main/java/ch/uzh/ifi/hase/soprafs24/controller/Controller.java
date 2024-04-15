@@ -35,19 +35,19 @@ public class Controller {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerDTO createSession(@RequestBody String playerName) {
+    public String createSession(@RequestBody String playerName) {
         String sessionId = sessionService.createSession();
         Player newPlayer = playerService.createPlayer(playerName, sessionId);
-        return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
+        return newPlayer.getId();
     }
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PlayerDTO joinSession(@RequestBody JoinDTO joinData) {
+    public String joinSession(@RequestBody JoinDTO joinData) {
         sessionService.validateSessionId(joinData.getSessionId());
         Player newPlayer = playerService.createPlayer(joinData.getPlayerName(), joinData.getSessionId());
-        return DTOMapper.INSTANCE.convertEntityToPlayerDTO(newPlayer);
+        return newPlayer.getId();
     }
 
     @PostMapping("/ping")
