@@ -22,20 +22,19 @@ public class SessionService {
 
     public String createSession() {
         Session newSession = new Session();
-        newSession.setPlayerCount(1);
         String sessionId = UUID.randomUUID().toString();
         newSession.setId(sessionId);
-        newSession.setTurnPlayer(0);
+        newSession.setTurnPlayer(null);
         newSession.setSeed(UUID.randomUUID().toString());
         sessionRepository.save(newSession);
         sessionRepository.flush();
         return sessionId;
     }
 
-    public void joinSession(String sessionId) {
-        Session sessionById = sessionRepository.findById(sessionId);
-        Integer curr = sessionById.getPlayerCount();
-        sessionById.setPlayerCount(curr + 1);
+    public void validateSessionId(String sessionId) {
+        if (sessionRepository.findById(sessionId) == null){
+            throw new IllegalArgumentException("Invalid Session ID");
+        }
     }
 
     public Session getSessionById(String sessionId) {

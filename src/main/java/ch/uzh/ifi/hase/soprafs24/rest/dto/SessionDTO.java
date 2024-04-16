@@ -15,9 +15,5 @@ public class SessionDTO {
 
     @Getter
     @Setter
-    private Integer playerCount;
-
-    @Getter
-    @Setter
     private String seed;
 }

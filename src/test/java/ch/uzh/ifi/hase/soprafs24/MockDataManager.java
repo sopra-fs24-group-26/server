@@ -11,23 +11,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class MockDataManager {
 
-    public static Player mockPlayer(String sessionId) {
+    public static Player mockPlayer(String sessionId, String name) {
         Player player = new Player();
-        player.setName("Gugus");
+        player.setName(name);
         player.setSessionId(sessionId);
         player.setId(UUID.randomUUID().toString());
         return player;
     }
 
+    public static List<Player> mockPlayers(String sessionId) {
+        Player player1 = mockPlayer(sessionId, "Banane");
+        Player player2 = mockPlayer(sessionId, "Apple");
+        Player player3 = mockPlayer(sessionId, "Kiwi");
+        return Arrays.asList(player1, player2, player3);
+    }
+
     public static Session mockSession() {
         Session session = new Session();
         session.setId(UUID.randomUUID().toString());
-        session.setPlayerCount(4);
         session.setTurnPlayer(0);
         return session;
     }
@@ -58,8 +65,6 @@ public class MockDataManager {
             Tile tile = new Tile();
             tile.setId(UUID.randomUUID().toString());
             tile.setSessionId(sessionId);
-            tile.setType((int) (Math.random() * 4)); // Generating a random type between 0 and 3
-            tile.setIsPlaced(false); // Assuming initially all tiles are in player's hand// Generating a random Y coordinate
             tiles.add(tile);
         }
         return tiles;

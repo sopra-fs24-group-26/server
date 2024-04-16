@@ -15,9 +15,5 @@ public class PlayerDTO {
 
     @Getter
     @Setter
-    private String sessionId;
-
-    @Getter
-    @Setter
     private Integer orderIndex;
 }

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 import java.util.List;
-import java.util.UUID;
-
 @Service
 @Transactional
 public class TileService {
@@ -23,23 +21,15 @@ public class TileService {
         this.tileRepository = tileRepository;
     }
 
-    public void drawTile(String sessionId, Integer type) {
+    public void createTile(String tileId, String sessionId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
         Tile newTile = new Tile();
-        newTile.setId(UUID.randomUUID().toString());
+        newTile.setId(tileId);
         newTile.setSessionId(sessionId);
-        newTile.setType(type);
-        newTile.setIsPlaced(false);
-        tileRepository.save(newTile);
-        tileRepository.flush();
-    }
+        newTile.setRotation(rotation);
+        newTile.setCoordinateX(xCoordinate);
+        newTile.setCoordinateY(yCoordinate);
 
-    public void placeTile(String tileId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
-        Tile toUpdateTile = tileRepository.findByid(tileId);
-        toUpdateTile.setRotation(rotation);
-        toUpdateTile.setCoordinateX(xCoordinate);
-        toUpdateTile.setCoordinateY(yCoordinate);
-        toUpdateTile.setIsPlaced(true);
-        tileRepository.save(toUpdateTile);
+        tileRepository.save(newTile);
         tileRepository.flush();
     }
 

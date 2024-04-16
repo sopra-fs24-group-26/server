@@ -7,23 +7,11 @@ public class TileDTO {
 
     @Getter
     @Setter
-    // UUID 4 string
     private String id;
 
     @Getter
     @Setter
-    // UUID 4 string
     private String sessionId;
-
-    @Getter
-    @Setter
-    // What type is which can be seen seen in TileType file
-    private Integer type;
-
-    // if isPlaced is false, means the tile is in a players hand
-    @Getter
-    @Setter
-    private Boolean isPlaced;
 
     @Getter
     @Setter

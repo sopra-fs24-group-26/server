@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs24.service;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ public class PlayerService {
         Player newPlayer = new Player();
         newPlayer.setName(playerName);
         newPlayer.setSessionId(sessionId);
-        // newPlayer.setOrderIndex == TODO
         newPlayer.setId(UUID.randomUUID().toString());
         newPlayer = playerRepository.save(newPlayer);
         playerRepository.flush();
@@ -33,21 +33,25 @@ public class PlayerService {
     }
 
     public void deletePlayer(String playerId) {
-        String cleanedPlayerId = cleanId(playerId);
-        playerRepository.deleteById(cleanedPlayerId);
+        playerRepository.deleteById(playerId);
     }
 
     public Player getPlayerById(String playerId) {
-        String cleanedPlayerId = cleanId(playerId);
-        return playerRepository.findById(cleanedPlayerId);
+        return playerRepository.findById(playerId);
     }
 
     public List<Player> getPlayersInSession(String sessionId) {
-        String cleanedSessionId = cleanId(sessionId);
-        return playerRepository.findAllBySessionId(cleanedSessionId);
+        return playerRepository.findAllBySessionId(sessionId);
     }
 
-    private String cleanId(String id) {
-        return id.replaceAll("^\"|\"$", "");
+    public void distributeOrderIndex(String sessionID){
+        List<Player> players = this.getPlayersInSession(sessionID);
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            player.setOrderIndex(i);
+            playerRepository.save(player);
+            playerRepository.flush();
+        }
+
     }
 }

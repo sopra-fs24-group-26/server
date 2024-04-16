@@ -16,14 +16,11 @@ public interface DTOMapper {
 
     @Mapping(source = "name", target = "name")
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "sessionId", target = "sessionId")
     @Mapping(source = "orderIndex", target = "orderIndex")
     PlayerDTO convertEntityToPlayerDTO(Player player);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "sessionId", target = "sessionId")
-    @Mapping(source = "type", target = "type")
-    @Mapping(source = "isPlaced", target = "isPlaced")
     @Mapping(source = "rotation", target = "rotation")
     @Mapping(source = "coordinateX", target = "coordinateX")
     @Mapping(source = "coordinateY", target = "coordinateY")
@@ -31,7 +28,6 @@ public interface DTOMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "turnPlayer", target = "turnPlayer")
-    @Mapping(source = "playerCount", target = "playerCount")
     @Mapping(source = "seed", target = "seed")
     SessionDTO convertEntityToSessionDTO(Session session);
 }
