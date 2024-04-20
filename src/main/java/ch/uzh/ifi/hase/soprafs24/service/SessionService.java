@@ -40,4 +40,11 @@ public class SessionService {
     public Session getSessionById(String sessionId) {
         return sessionRepository.findById(sessionId);
     }
+
+    public void beginTurn(String sessionID) {
+        Session session = sessionRepository.findById(sessionID);
+        session.setTurnPlayer(0);
+        sessionRepository.save(session);
+        sessionRepository.flush();
+    }
 }

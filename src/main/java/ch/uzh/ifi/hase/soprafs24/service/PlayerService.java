@@ -44,7 +44,7 @@ public class PlayerService {
         return playerRepository.findAllBySessionId(sessionId);
     }
 
-    public void distributeOrderIndex(String sessionID){
+    public void distributeOrderIndex(String sessionID) {
         List<Player> players = this.getPlayersInSession(sessionID);
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
