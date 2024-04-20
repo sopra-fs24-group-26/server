@@ -18,7 +18,7 @@ public class Session implements Serializable {
     @Getter
     @Setter
     @Column
-    private Integer turnPlayer;
+    private Integer turnIndex;
 
     @Getter
     @Setter

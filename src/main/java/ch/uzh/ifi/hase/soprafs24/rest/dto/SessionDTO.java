@@ -11,7 +11,7 @@ public class SessionDTO {
 
     @Getter
     @Setter
-    private Integer turnPlayer;
+    private Integer turnIndex;
 
     @Getter
     @Setter
