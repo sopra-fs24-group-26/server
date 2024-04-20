@@ -27,7 +27,7 @@ public interface DTOMapper {
     TileDTO convertEntityToTileDTO(Tile tile);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "turnPlayer", target = "turnPlayer")
+    @Mapping(source = "turnIndex", target = "turnIndex")
     @Mapping(source = "seed", target = "seed")
     SessionDTO convertEntityToSessionDTO(Session session);
 }

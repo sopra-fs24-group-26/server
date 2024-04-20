@@ -24,7 +24,7 @@ public class SessionService {
         Session newSession = new Session();
         String sessionId = UUID.randomUUID().toString();
         newSession.setId(sessionId);
-        newSession.setTurnPlayer(null);
+        newSession.setTurnIndex(null);
         newSession.setSeed(UUID.randomUUID().toString());
         sessionRepository.save(newSession);
         sessionRepository.flush();
@@ -39,5 +39,12 @@ public class SessionService {
 
     public Session getSessionById(String sessionId) {
         return sessionRepository.findById(sessionId);
+    }
+
+    public void beginTurn(String sessionId) {
+        Session session = sessionRepository.findById(sessionId);
+        session.setTurnIndex(0);
+        sessionRepository.save(session);
+        sessionRepository.flush();
     }
 }

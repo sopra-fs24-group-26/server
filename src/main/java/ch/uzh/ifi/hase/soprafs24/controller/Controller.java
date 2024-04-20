@@ -35,7 +35,8 @@ public class Controller {
     @ResponseBody
     public String createSession(@RequestBody String playerName) {
         String sessionId = sessionService.createSession();
-        Player newPlayer = playerService.createPlayer(DTOMappingFunctions.cleanString(playerName), sessionId);
+        String name = DTOMappingFunctions.cleanString(playerName);
+        Player newPlayer = playerService.createPlayer(name, sessionId);
         return newPlayer.getId();
     }
 
@@ -57,14 +58,16 @@ public class Controller {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public Boolean checkPlayerId(@RequestBody String playerId) {
-        return playerService.getPlayerById(DTOMappingFunctions.cleanString(playerId)) != null;
+        String id = DTOMappingFunctions.cleanString(playerId);
+        return playerService.getPlayerById(id) != null;
     }
 
     @PostMapping("/ping")
     @ResponseBody
     public DataDTO getDataByPlayerId(@RequestBody String playerId) {
-        validatePlayerId(DTOMappingFunctions.cleanString(playerId));
-        Player player = playerService.getPlayerById(DTOMappingFunctions.cleanString(playerId));
+        String id = DTOMappingFunctions.cleanString(playerId);
+        validatePlayerId(id);
+        Player player = playerService.getPlayerById(id);
         Session session = sessionService.getSessionById(player.getSessionId());
         List<Player> players = playerService.getPlayersInSession(session.getId());
         List<Tile> tiles = tileService.getTilesInSession(session.getId());
@@ -81,13 +84,16 @@ public class Controller {
 
     @PostMapping("/deletePlayer")
     public void deletePlayer(@RequestBody String playerId) {
-        validatePlayerId(DTOMappingFunctions.cleanString(playerId));
-        playerService.deletePlayer(DTOMappingFunctions.cleanString(playerId));
+        String id = DTOMappingFunctions.cleanString(playerId);
+        validatePlayerId(id);
+        playerService.deletePlayer(id);
     }
 
-    @PutMapping("/distributeOrderIndex")
-    public void distributeOrderIndex(@RequestBody String sessionID) {
-        playerService.distributeOrderIndex(DTOMappingFunctions.cleanString(sessionID));
+    @PutMapping("/start")
+    public void startGameSession(@RequestBody String sessionId) {
+        String id = DTOMappingFunctions.cleanString(sessionId);
+        playerService.distributeOrderIndex(id);
+        sessionService.beginTurn(id);
     }
 
     private void validatePlayerId(String playerId) {

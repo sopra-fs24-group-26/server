@@ -35,7 +35,7 @@ public class MockDataManager {
     public static Session mockSession() {
         Session session = new Session();
         session.setId(UUID.randomUUID().toString());
-        session.setTurnPlayer(0);
+        session.setTurnIndex(0);
         return session;
     }
 
