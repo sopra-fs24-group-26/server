@@ -27,7 +27,7 @@ public class PlayerRepositoryIntegrationTest {
     private TestEntityManager playerManager;
 
     @Test
-    public void whenFindByName_thenReturnPlayer() {
+    public void whenFindById_thenReturnPlayer() {
         // given
         Player player = new Player();
         player.setName("JPP");
