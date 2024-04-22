@@ -35,10 +35,10 @@ public class MockDataManager {
     public static Session mockSession() {
         Session session = new Session();
         session.setId(UUID.randomUUID().toString());
+        session.setSeed(UUID.randomUUID().toString());
         session.setTurnIndex(0);
         return session;
     }
-
 
     public static JoinDTO mockJoinDTO(String playerName, String sessionId) {
         JoinDTO joinDTO = new JoinDTO();

@@ -92,6 +92,7 @@ public class Controller {
     @PutMapping("/start")
     public void startGameSession(@RequestBody String sessionId) {
         String id = DTOMappingFunctions.cleanString(sessionId);
+        validateSessionId(id);
         playerService.distributeOrderIndex(id);
         sessionService.beginTurn(id);
     }
@@ -100,6 +101,12 @@ public class Controller {
         Player player = playerService.getPlayerById(playerId);
         if (player == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
+    }
+
+    private void validateSessionId(String sessionId) {
+        Session session = sessionService.getSessionById(sessionId);
+        if (session == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start game request denied, invalid sessionId");
     }
 
     private DataDTO createDataDTO(Session session, List<Player> players, List<Tile> tiles) {
