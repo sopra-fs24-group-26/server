@@ -7,17 +7,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,9 +30,9 @@ public class SessionServiceTest {
     SessionService sessionService;
 
     @Test
-    public void whenCreateNewSession_NewSessionIsCreated(){
+    public void whenCreateNewSession_NewSessionIsCreatedInDatabase(){
         List<Session> mockDataBase = new ArrayList<>();
-        Mockito.when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
+        when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
             Session session = invocation.getArgument(0);
             mockDataBase.add(session);
             return null;
@@ -43,16 +43,15 @@ public class SessionServiceTest {
     }
 
     @Test
-    public void whenValidateSessionWithInvalidInput_ThrowsException() {
-        Mockito.when(sessionRepository.findById(anyString())).thenThrow(new IllegalArgumentException());
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            sessionService.validateSessionId("invalid SessionId");
-        });
+    public void whenCreateNewSession_ReturnsSessionId(){
+
+        String id = sessionService.createSession();
+        assertThat(id).isNotNull();
     }
 
     @Test
     public void whenBeginTurn_SetTurnIndexZero() {
-        Mockito.when(sessionRepository.findById(anyString())).thenAnswer(invocation -> {
+        when(sessionRepository.findById(anyString())).thenAnswer(invocation -> {
             String id = invocation.getArgument(0);
             Session newSession = new Session();
             newSession.setId(id);
@@ -60,7 +59,7 @@ public class SessionServiceTest {
             return newSession;
         });
         List<Session> mockDataBase = new ArrayList<>();
-        Mockito.when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
+        when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
             Session session = invocation.getArgument(0);
             mockDataBase.add(session);
             return null;
@@ -71,8 +70,22 @@ public class SessionServiceTest {
         assertThat(mockDataBase.get(0).getId()).isEqualTo(id);
         assertThat(mockDataBase.get(0).getSeed()).isEqualTo("seed");
         assertThat(mockDataBase.get(0).getTurnIndex()).isEqualTo(0);
-
     }
 
+    @Test
+    public void whenValidateSessionId_ValidIdPasses(){
+        String id = "id542369";
+        when(sessionRepository.findById(anyString())).thenReturn(null);
 
+        Assertions.assertThrows(ResponseStatusException.class, () -> {
+            sessionService.validateSessionId(id);
+        });
+    }
+
+    private Session setUpSessionWithId(String id){
+        Session session = new Session();
+        session.setId(id);
+        session.setSeed("seed");
+        return session;
+    }
 }

@@ -17,6 +17,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(SpringRunner.class)
@@ -38,7 +39,7 @@ public class PlayerServiceTest {
         player.setId(id);
         player.setSessionId("123456");
         player.setOrderIndex(0);
-        Mockito.when(playerRepository.findById(player.getId()))
+        when(playerRepository.findById(player.getId()))
                 .thenReturn(player);
 
         Player found = playerService.getPlayerById(id);
@@ -54,7 +55,7 @@ public class PlayerServiceTest {
 
         List<Player> inSession = setUpMultiplePlayersInSession();
 
-        Mockito.when(playerRepository.findAllBySessionId("1234")).thenReturn(inSession);
+        when(playerRepository.findAllBySessionId("1234")).thenReturn(inSession);
 
         String sessionId = "1234";
         List<Player> foundPlayers = playerService.getPlayersInSession(sessionId);
@@ -79,7 +80,7 @@ public class PlayerServiceTest {
         player.setName(name);
         player.setSessionId(sessionId);
         player.setId(id);
-        Mockito.when(playerRepository.save(Mockito.any())).thenReturn(player);
+        when(playerRepository.save(Mockito.any())).thenReturn(player);
 
         Player newPlayer = playerService.createPlayer(name, sessionId);
         assertThat(newPlayer.getName()).isEqualTo(name);
@@ -91,12 +92,12 @@ public class PlayerServiceTest {
     @Test
     public void whenDistributeOrderIndex_AllPlayersInSessionAreAssigned(){
         List<Player> playersWithOrderIndex = new ArrayList<>();
-        Mockito.when(playerRepository.save(any(Player.class))).thenAnswer(invocation -> {
+        when(playerRepository.save(any(Player.class))).thenAnswer(invocation -> {
             Player player = invocation.getArgument(0);
             playersWithOrderIndex.add(player);
             return null;
         });
-        Mockito.when(playerRepository.findAllBySessionId(anyString())).thenReturn(setUpMultiplePlayersInSession());
+        when(playerRepository.findAllBySessionId(anyString())).thenReturn(setUpMultiplePlayersInSession());
 
         String sessionId = "1234";
         playerService.distributeOrderIndex(sessionId);
@@ -120,4 +121,5 @@ public class PlayerServiceTest {
         }
         return inSession;
     }
+
 }

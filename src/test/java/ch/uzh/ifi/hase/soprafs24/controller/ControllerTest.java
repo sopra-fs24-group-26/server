@@ -14,19 +14,20 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -142,9 +143,8 @@ public class ControllerTest {
     public void startGameSession_validId_isOk() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
 
-
         // mock validateSession to evaluate request to have valid sessionId
-        given(sessionService.getSessionById(mockedSession.getId())).willReturn(mockedSession);
+        doNothing().when(sessionService).validateSessionId(mockedSession.getId());
 
         MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content(mockedSession.getId());
         mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isOk());
@@ -155,10 +155,11 @@ public class ControllerTest {
     @Test
     public void startGameSession_invalidId_throwsException() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
-
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(sessionService).validateSessionId(anyString());
         // put request to an inexistent session
         MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content("invalid sessionId");
         mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isBadRequest());
+        Mockito.verify(sessionService).validateSessionId(Mockito.any());
         Mockito.verify(playerService, never()).distributeOrderIndex(Mockito.any());
         Mockito.verify(sessionService, never()).beginTurn(Mockito.any());
 
