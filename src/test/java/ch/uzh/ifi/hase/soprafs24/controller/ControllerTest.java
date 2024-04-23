@@ -57,7 +57,7 @@ public class ControllerTest {
 
         MockHttpServletRequestBuilder postRequest = post("/create").content(mockPlayer.getName());
 
-        MvcResult  result = mockMvc.perform(postRequest)
+        MvcResult result = mockMvc.perform(postRequest)
             .andExpect(status().isCreated())
             .andReturn();
 
@@ -76,12 +76,40 @@ public class ControllerTest {
 
         MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(joinDTO));
 
-        MvcResult  result = mockMvc.perform(postRequest)
+        MvcResult result = mockMvc.perform(postRequest)
             .andExpect(status().isCreated())
             .andReturn();
 
         String returnValue = result.getResponse().getContentAsString();
         assertEquals(mockPlayer.getId(), returnValue);
+    }
+
+    @Test
+    public void checkPlayerId_validPlayerId_returnPlayer() throws Exception {
+        Session mockedSession = MockDataManager.mockSession();
+        Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId(), "gugus");
+        when(playerService.getPlayerById(anyString())).thenReturn(mockedPlayer);
+        MockHttpServletRequestBuilder postRequest = post("/validate").content("playerId");
+
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        String returnValue = result.getResponse().getContentAsString();
+        assertEquals("true", returnValue);
+    }
+
+    @Test
+    public void checkPlayerId_invalidPlayerId_returnNull() throws Exception {
+        when(playerService.getPlayerById(anyString())).thenReturn(null);
+        MockHttpServletRequestBuilder postRequest = post("/validate").content("invalid playerId");
+
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        String returnValue = result.getResponse().getContentAsString();
+        assertEquals("false", returnValue);
     }
     
     @Test
