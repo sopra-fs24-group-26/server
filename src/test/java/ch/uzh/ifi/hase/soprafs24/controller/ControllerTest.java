@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -141,26 +142,25 @@ public class ControllerTest {
     public void startGameSession_validId_isOk() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
 
-        Mockito.doNothing().when(playerService).distributeOrderIndex(mockedSession.getId());
-        Mockito.doNothing().when(sessionService).beginTurn(mockedSession.getId());
+
         // mock validateSession to evaluate request to have valid sessionId
         given(sessionService.getSessionById(mockedSession.getId())).willReturn(mockedSession);
 
         MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content(mockedSession.getId());
         mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isOk());
-
+        Mockito.verify(playerService).distributeOrderIndex(mockedSession.getId());
+        Mockito.verify(sessionService).beginTurn(mockedSession.getId());
     }
 
     @Test
     public void startGameSession_invalidId_throwsException() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
 
-        Mockito.doNothing().when(playerService).distributeOrderIndex(mockedSession.getId());
-        Mockito.doNothing().when(sessionService).beginTurn(mockedSession.getId());
-
         // put request to an inexistent session
         MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content("invalid sessionId");
         mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isBadRequest());
+        Mockito.verify(playerService, never()).distributeOrderIndex(Mockito.any());
+        Mockito.verify(sessionService, never()).beginTurn(Mockito.any());
 
     }
 }

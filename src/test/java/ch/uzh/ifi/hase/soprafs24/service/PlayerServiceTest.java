@@ -13,8 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Arrays;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -100,9 +103,12 @@ public class PlayerServiceTest {
 
         String sessionId = "1234";
         playerService.distributeOrderIndex(sessionId);
+
+        List<Integer> orders = new ArrayList<>();
         for(int i=0; i<playersWithOrderIndex.size(); i++){
-            assertThat(playersWithOrderIndex.get(i).getOrderIndex()).isEqualTo(i);
+            orders.add(playersWithOrderIndex.get(i).getOrderIndex());
         }
+        assertThat(orders).containsExactlyInAnyOrder(0,1,2);
 
     }
 
