@@ -52,6 +52,5 @@ public class PlayerService {
             playerRepository.save(player);
             playerRepository.flush();
         }
-
     }
 }

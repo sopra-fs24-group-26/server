@@ -21,10 +21,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -82,6 +84,28 @@ public class ControllerTest {
 
         String returnValue = result.getResponse().getContentAsString();
         assertEquals(mockPlayer.getId(), returnValue);
+    }
+
+    @Test
+    public void joinSession_tooManyPlayers_ResponseStatusExceptionIsThrown() throws Exception {
+        String mockSessionId = MockDataManager.mockSession().getId();
+        Player mockPlayer = MockDataManager.mockPlayer(mockSessionId, "gugus");
+        JoinDTO joinDTO = MockDataManager.mockJoinDTO(mockPlayer.getName(), mockSessionId);
+
+        List<Player> mockPlayers = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            mockPlayers.add(new Player());
+        }
+
+        Mockito.doNothing().when(sessionService).validateSessionId(mockSessionId);
+        given(playerService.getPlayersInSession(Mockito.any())).willReturn(mockPlayers);
+
+        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(joinDTO));
+
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
     }
 
     @Test
