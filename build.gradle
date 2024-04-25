@@ -67,16 +67,22 @@ sonarqube {
   }
 }
 
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    testLogging.showStandardStreams = true
+    maxParallelForks = 1
+}
+
 jacocoTestReport {
+    dependsOn test
     reports {
         xml.enabled true
     }
 }
 
-test {
-    useJUnitPlatform()
-    testLogging.showStandardStreams = true
-    maxParallelForks = 1
+jacoco {
+    toolVersion = '0.8.7'
 }
 
 File secretPropsFile = file('./local.properties')
