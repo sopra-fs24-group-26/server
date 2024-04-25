@@ -24,9 +24,6 @@ public class TileService {
     }
 
     public void createTile(String tileId, String sessionId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
-        if(rotation > 3 || rotation < 0){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Client Error: Invalid rotation value");
-        }
         Tile newTile = new Tile();
         newTile.setId(tileId);
         newTile.setSessionId(sessionId);
