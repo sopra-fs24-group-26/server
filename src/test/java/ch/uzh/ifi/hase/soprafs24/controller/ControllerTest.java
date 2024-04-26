@@ -26,7 +26,6 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -49,7 +48,6 @@ public class ControllerTest {
     @MockBean
     private TileService tileService;
 
-
     @Test
     public void createSession_validInput_sessionCreated() throws Exception {
         String mockSessionId = MockDataManager.mockSession().getId();
@@ -60,8 +58,8 @@ public class ControllerTest {
         MockHttpServletRequestBuilder postRequest = post("/create").content(mockPlayer.getName());
 
         MvcResult result = mockMvc.perform(postRequest)
-            .andExpect(status().isCreated())
-            .andReturn();
+                .andExpect(status().isCreated())
+                .andReturn();
 
         String returnValue = result.getResponse().getContentAsString();
         assertEquals(mockPlayer.getId(), returnValue);
@@ -76,11 +74,12 @@ public class ControllerTest {
         Mockito.doNothing().when(sessionService).validateSessionId(mockSessionId);
         given(playerService.createPlayer(mockPlayer.getName(), mockSessionId)).willReturn(mockPlayer);
 
-        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(joinDTO));
+        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON)
+                .content(MockDataManager.asJsonString(joinDTO));
 
         MvcResult result = mockMvc.perform(postRequest)
-            .andExpect(status().isCreated())
-            .andReturn();
+                .andExpect(status().isCreated())
+                .andReturn();
 
         String returnValue = result.getResponse().getContentAsString();
         assertEquals(mockPlayer.getId(), returnValue);
@@ -93,16 +92,17 @@ public class ControllerTest {
         JoinDTO joinDTO = MockDataManager.mockJoinDTO(mockPlayer.getName(), mockSessionId);
 
         List<Player> mockPlayers = new ArrayList<>();
-        for(int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             mockPlayers.add(new Player());
         }
 
         Mockito.doNothing().when(sessionService).validateSessionId(mockSessionId);
         given(playerService.getPlayersInSession(Mockito.any())).willReturn(mockPlayers);
 
-        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(joinDTO));
+        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON)
+                .content(MockDataManager.asJsonString(joinDTO));
 
-        MvcResult result = mockMvc.perform(postRequest)
+        mockMvc.perform(postRequest)
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -135,7 +135,7 @@ public class ControllerTest {
         String returnValue = result.getResponse().getContentAsString();
         assertEquals("false", returnValue);
     }
-    
+
     @Test
     public void pingData_validId_dataSent() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
@@ -206,8 +206,8 @@ public class ControllerTest {
 
     @Test
     public void startGameSession_invalidId_throwsException() throws Exception {
-        Session mockedSession = MockDataManager.mockSession();
-        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(sessionService).validateSessionId(anyString());
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(sessionService)
+                .validateSessionId(anyString());
         // put request to an inexistent session
         MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content("invalid sessionId");
         mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isBadRequest());

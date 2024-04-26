@@ -4,11 +4,11 @@ import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class SessionServiceTest {
 
@@ -80,12 +80,5 @@ public class SessionServiceTest {
         Assertions.assertThrows(ResponseStatusException.class, () -> {
             sessionService.validateSessionId(id);
         });
-    }
-
-    private Session setUpSessionWithId(String id){
-        Session session = new Session();
-        session.setId(id);
-        session.setSeed("seed");
-        return session;
     }
 }
