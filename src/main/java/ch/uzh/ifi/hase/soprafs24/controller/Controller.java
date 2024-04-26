@@ -80,12 +80,19 @@ public class Controller {
     public void placeTile(@RequestBody TileDTO tileDTO) {
         tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(),
                 tileDTO.getCoordinateY());
+        sessionService.incrementTurnIndex(tileDTO.getSessionId());
     }
 
     @PostMapping("/deletePlayer")
     public void deletePlayer(@RequestBody String playerId) {
         String id = DTOMappingFunctions.cleanString(playerId);
         validatePlayerId(id);
+        Player player = playerService.getPlayerById(id);
+        String sessionId = player.getSessionId();
+        
+        if (playerService.getPlayersInSession(sessionId).size() == 1){
+            sessionService.deleteSession(sessionId);
+        }
         playerService.deletePlayer(id);
     }
 
