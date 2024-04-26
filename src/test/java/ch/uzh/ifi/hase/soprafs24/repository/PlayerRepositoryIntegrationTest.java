@@ -56,7 +56,7 @@ public class PlayerRepositoryIntegrationTest {
         playerManager.flush();
 
         List<Player> inSession = new ArrayList<Player>();
-        for(int i=0;i<3;i++){
+        for (int i = 0; i < 3; i++) {
             Player p = new Player();
             p.setName("Player" + Integer.toString(i));
             p.setId(Integer.toString(i));
@@ -70,9 +70,8 @@ public class PlayerRepositoryIntegrationTest {
         // when
         List<Player> found = playerRepository.findAllBySessionId("1234");
 
-
         // then
-        for(Player foundPlayer: found){
+        for (Player foundPlayer : found) {
             assertThat(foundPlayer.getName()).isEqualTo(inSession.get(foundPlayer.getOrderIndex()).getName());
             assertThat(foundPlayer.getSessionId()).isEqualTo(inSession.get(foundPlayer.getOrderIndex()).getSessionId());
             assertThat(foundPlayer.getId()).isEqualTo(inSession.get(foundPlayer.getOrderIndex()).getId());
@@ -81,7 +80,7 @@ public class PlayerRepositoryIntegrationTest {
     }
 
     @Test
-    public void whenSaveInCreate_CanBeFound(){
+    public void whenSaveInCreate_CanBeFound() {
         String name = "JPP";
         String sessionId = "123456";
         String id = UUID.randomUUID().toString();

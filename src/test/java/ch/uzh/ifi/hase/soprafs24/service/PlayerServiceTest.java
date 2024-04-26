@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PlayerServiceTest {
@@ -51,7 +50,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void whenValidSessionId_AllPlayersInSessionFound(){
+    public void whenValidSessionId_AllPlayersInSessionFound() {
 
         List<Player> inSession = setUpMultiplePlayersInSession();
 
@@ -61,7 +60,7 @@ public class PlayerServiceTest {
         List<Player> foundPlayers = playerService.getPlayersInSession(sessionId);
         assertThat(foundPlayers.size()).isNotEqualTo(0);
         int counter = 0;
-        for (Player p: foundPlayers){
+        for (Player p : foundPlayers) {
             assertThat(p.getSessionId()).isEqualTo(sessionId);
             assertThat(p.getName()).isEqualTo("Player" + p.getId());
             counter += 1;
@@ -70,7 +69,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void whenCreatePlayer_ReturnNewPlayer(){
+    public void whenCreatePlayer_ReturnNewPlayer() {
 
         String name = "JPP";
         String sessionId = "123456";
@@ -90,7 +89,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    public void whenDistributeOrderIndex_AllPlayersInSessionAreAssigned(){
+    public void whenDistributeOrderIndex_AllPlayersInSessionAreAssigned() {
         List<Player> playersWithOrderIndex = new ArrayList<>();
         when(playerRepository.save(any(Player.class))).thenAnswer(invocation -> {
             Player player = invocation.getArgument(0);
@@ -103,16 +102,16 @@ public class PlayerServiceTest {
         playerService.distributeOrderIndex(sessionId);
 
         List<Integer> orders = new ArrayList<>();
-        for(int i=0; i<playersWithOrderIndex.size(); i++){
+        for (int i = 0; i < playersWithOrderIndex.size(); i++) {
             orders.add(playersWithOrderIndex.get(i).getOrderIndex());
         }
-        assertThat(orders).containsExactlyInAnyOrder(0,1,2);
+        assertThat(orders).containsExactlyInAnyOrder(0, 1, 2);
 
     }
 
-    private List<Player> setUpMultiplePlayersInSession(){
+    private List<Player> setUpMultiplePlayersInSession() {
         List<Player> inSession = new ArrayList<>();
-        for(int i=0;i<3;i++) {
+        for (int i = 0; i < 3; i++) {
             Player p = new Player();
             p.setName("Player" + i);
             p.setId(Integer.toString(i));

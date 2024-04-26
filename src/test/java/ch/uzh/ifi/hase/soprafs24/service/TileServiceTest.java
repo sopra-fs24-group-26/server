@@ -16,7 +16,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class TileServiceTest {
@@ -28,7 +27,7 @@ public class TileServiceTest {
     TileService tileService;
 
     @Test
-    public void whenCreateTile_ValidInputAddsTileToDB(){
+    public void whenCreateTile_ValidInputAddsTileToDB() {
         Tile expectedTile = new Tile();
         String dummyStr = "dummy";
         int dummyInt = 1;
@@ -45,7 +44,7 @@ public class TileServiceTest {
             return null;
         });
 
-        tileService.createTile(dummyStr,dummyStr,dummyInt,dummyInt,dummyInt);
+        tileService.createTile(dummyStr, dummyStr, dummyInt, dummyInt, dummyInt);
         assertThat(mockDataBase.get(0)).usingRecursiveComparison().isEqualTo(expectedTile);
     }
 }

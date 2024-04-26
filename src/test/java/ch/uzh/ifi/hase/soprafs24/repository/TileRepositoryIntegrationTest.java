@@ -25,14 +25,14 @@ public class TileRepositoryIntegrationTest {
 
     private String setUpWithSessionId() {
         String sessionId = UUID.randomUUID().toString();
-        for(int i=0; i<5; i++){
+        for (int i = 0; i < 5; i++) {
             Tile newTile = new Tile();
             String id = "Tile" + i;
             newTile.setId(id);
             newTile.setSessionId(sessionId);
-            newTile.setRotation(i%3);
-            newTile.setCoordinateX(i-5);
-            newTile.setCoordinateY((int)(Math.random()*5));
+            newTile.setRotation(i % 3);
+            newTile.setCoordinateX(i - 5);
+            newTile.setCoordinateY((int) (Math.random() * 5));
             tileManager.persist(newTile);
             tileManager.flush();
         }
@@ -66,15 +66,14 @@ public class TileRepositoryIntegrationTest {
 
         List<Tile> found = tileRepository.findAllBySessionId(sessionId);
         assertThat(found.size()).isEqualTo(5);
-        for(int i=0; i<found.size(); i++){
+        for (int i = 0; i < found.size(); i++) {
             assertThat(found.get(i).getId()).isEqualTo("Tile" + i);
             assertThat(found.get(i).getSessionId()).isEqualTo(sessionId);
-            assertThat(found.get(i).getRotation()).isEqualTo(i%3);
-            assertThat(found.get(i).getCoordinateX()).isEqualTo(i-5);
+            assertThat(found.get(i).getRotation()).isEqualTo(i % 3);
+            assertThat(found.get(i).getCoordinateX()).isEqualTo(i - 5);
             assertThat(found.get(i).getCoordinateY()).isLessThan(5);
         }
 
     }
-
 
 }

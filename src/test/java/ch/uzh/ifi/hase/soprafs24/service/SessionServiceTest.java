@@ -30,7 +30,7 @@ public class SessionServiceTest {
     SessionService sessionService;
 
     @Test
-    public void whenCreateNewSession_NewSessionIsCreatedInDatabase(){
+    public void whenCreateNewSession_NewSessionIsCreatedInDatabase() {
         List<Session> mockDataBase = new ArrayList<>();
         when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
             Session session = invocation.getArgument(0);
@@ -43,7 +43,7 @@ public class SessionServiceTest {
     }
 
     @Test
-    public void whenCreateNewSession_ReturnsSessionId(){
+    public void whenCreateNewSession_ReturnsSessionId() {
 
         String id = sessionService.createSession();
         assertThat(id).isNotNull();
@@ -73,7 +73,7 @@ public class SessionServiceTest {
     }
 
     @Test
-    public void whenValidateSessionId_ValidIdPasses(){
+    public void whenValidateSessionId_ValidIdPasses() {
         String id = "id542369";
         when(sessionRepository.findById(anyString())).thenReturn(null);
 
