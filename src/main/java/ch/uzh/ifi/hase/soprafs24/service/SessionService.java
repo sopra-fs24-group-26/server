@@ -5,7 +5,10 @@ import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.transaction.Transactional;
 import java.util.UUID;
 
@@ -33,7 +36,7 @@ public class SessionService {
 
     public void validateSessionId(String sessionId) {
         if (sessionRepository.findById(sessionId) == null){
-            throw new IllegalArgumentException("Invalid Session ID");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Session ID");
         }
     }
 

@@ -99,6 +99,7 @@ public class Controller {
     @PutMapping("/start")
     public void startGameSession(@RequestBody String sessionId) {
         String id = DTOMappingFunctions.cleanString(sessionId);
+        sessionService.validateSessionId(id);
         playerService.distributeOrderIndex(id);
         sessionService.beginTurn(id);
     }
@@ -108,6 +109,7 @@ public class Controller {
         if (player == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't match to a player");
     }
+
 
     private DataDTO createDataDTO(Session session, List<Player> players, List<Tile> tiles) {
         DataDTO dataDTO = new DataDTO();

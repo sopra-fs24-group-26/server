@@ -44,14 +44,13 @@ public class PlayerService {
         return playerRepository.findAllBySessionId(sessionId);
     }
 
-    public void distributeOrderIndex(String sessionID) {
-        List<Player> players = this.getPlayersInSession(sessionID);
+    public void distributeOrderIndex(String sessionId) {
+        List<Player> players = this.getPlayersInSession(sessionId);
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             player.setOrderIndex(i);
             playerRepository.save(player);
             playerRepository.flush();
         }
-
     }
 }

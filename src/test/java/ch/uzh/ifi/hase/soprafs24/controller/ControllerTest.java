@@ -14,18 +14,22 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,7 +48,6 @@ public class ControllerTest {
     @MockBean
     private TileService tileService;
 
-
     @Test
     public void createSession_validInput_sessionCreated() throws Exception {
         String mockSessionId = MockDataManager.mockSession().getId();
@@ -54,9 +57,9 @@ public class ControllerTest {
 
         MockHttpServletRequestBuilder postRequest = post("/create").content(mockPlayer.getName());
 
-        MvcResult  result = mockMvc.perform(postRequest)
-            .andExpect(status().isCreated())
-            .andReturn();
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isCreated())
+                .andReturn();
 
         String returnValue = result.getResponse().getContentAsString();
         assertEquals(mockPlayer.getId(), returnValue);
@@ -71,16 +74,68 @@ public class ControllerTest {
         Mockito.doNothing().when(sessionService).validateSessionId(mockSessionId);
         given(playerService.createPlayer(mockPlayer.getName(), mockSessionId)).willReturn(mockPlayer);
 
-        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON).content(MockDataManager.asJsonString(joinDTO));
+        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON)
+                .content(MockDataManager.asJsonString(joinDTO));
 
-        MvcResult  result = mockMvc.perform(postRequest)
-            .andExpect(status().isCreated())
-            .andReturn();
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isCreated())
+                .andReturn();
 
         String returnValue = result.getResponse().getContentAsString();
         assertEquals(mockPlayer.getId(), returnValue);
     }
-    
+
+    @Test
+    public void joinSession_tooManyPlayers_ResponseStatusExceptionIsThrown() throws Exception {
+        String mockSessionId = MockDataManager.mockSession().getId();
+        Player mockPlayer = MockDataManager.mockPlayer(mockSessionId, "gugus");
+        JoinDTO joinDTO = MockDataManager.mockJoinDTO(mockPlayer.getName(), mockSessionId);
+
+        List<Player> mockPlayers = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            mockPlayers.add(new Player());
+        }
+
+        Mockito.doNothing().when(sessionService).validateSessionId(mockSessionId);
+        given(playerService.getPlayersInSession(Mockito.any())).willReturn(mockPlayers);
+
+        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON)
+                .content(MockDataManager.asJsonString(joinDTO));
+
+        mockMvc.perform(postRequest)
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+    }
+
+    @Test
+    public void checkPlayerId_validPlayerId_returnPlayer() throws Exception {
+        Session mockedSession = MockDataManager.mockSession();
+        Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId(), "gugus");
+        when(playerService.getPlayerById(anyString())).thenReturn(mockedPlayer);
+        MockHttpServletRequestBuilder postRequest = post("/validate").content("playerId");
+
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        String returnValue = result.getResponse().getContentAsString();
+        assertEquals("true", returnValue);
+    }
+
+    @Test
+    public void checkPlayerId_invalidPlayerId_returnNull() throws Exception {
+        when(playerService.getPlayerById(anyString())).thenReturn(null);
+        MockHttpServletRequestBuilder postRequest = post("/validate").content("invalid playerId");
+
+        MvcResult result = mockMvc.perform(postRequest)
+                .andExpect(status().isAccepted())
+                .andReturn();
+
+        String returnValue = result.getResponse().getContentAsString();
+        assertEquals("false", returnValue);
+    }
+
     @Test
     public void pingData_validId_dataSent() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
@@ -136,21 +191,29 @@ public class ControllerTest {
         mockMvc.perform(deleteRequest).andExpect(status().isNotFound());
     }
 
-   /*  @Test
-    public void distributeOrderIndex_validId_isOk() throws Exception {
+    @Test
+    public void startGameSession_validId_isOk() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
-        List<Player> mockedPlayers = MockDataManager.mockPlayers(mockedSession.getId());
 
-        Mockito.doNothing().when(playerService).distributeOrderIndex(mockedSession.getId());
-        given(playerService.getPlayersInSession(mockedSession.getId())).willReturn(mockedPlayers);
+        // mock validateSession to evaluate request to have valid sessionId
+        doNothing().when(sessionService).validateSessionId(mockedSession.getId());
 
-        MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/distributeOrderIndex").content(mockedSession.getId());
+        MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content(mockedSession.getId());
         mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isOk());
+        Mockito.verify(playerService).distributeOrderIndex(mockedSession.getId());
+        Mockito.verify(sessionService).beginTurn(mockedSession.getId());
+    }
 
-        List<Player> updatedPlayers = playerService.getPlayersInSession(mockedSession.getId());
-        // for (Player player : updatedPlayers) {
-           //  assertEquals(1, player.getOrderIndex());
-           // To be asserted correctly in the future
+    @Test
+    public void startGameSession_invalidId_throwsException() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(sessionService)
+                .validateSessionId(anyString());
+        // put request to an inexistent session
+        MockHttpServletRequestBuilder distributeOrderIndexRequest = put("/start").content("invalid sessionId");
+        mockMvc.perform(distributeOrderIndexRequest).andExpect(status().isBadRequest());
+        Mockito.verify(sessionService).validateSessionId(Mockito.any());
+        Mockito.verify(playerService, never()).distributeOrderIndex(Mockito.any());
+        Mockito.verify(sessionService, never()).beginTurn(Mockito.any());
 
-    } */
+    }
 }

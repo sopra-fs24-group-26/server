@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs24;
 
-
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
@@ -35,10 +34,10 @@ public class MockDataManager {
     public static Session mockSession() {
         Session session = new Session();
         session.setId(UUID.randomUUID().toString());
+        session.setSeed(UUID.randomUUID().toString());
         session.setTurnIndex(0);
         return session;
     }
-
 
     public static JoinDTO mockJoinDTO(String playerName, String sessionId) {
         JoinDTO joinDTO = new JoinDTO();
@@ -46,6 +45,7 @@ public class MockDataManager {
         joinDTO.setSessionId(sessionId);
         return joinDTO;
     }
+
     public static List<Player> generateMockPlayers(String sessionId) {
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -69,6 +69,7 @@ public class MockDataManager {
         }
         return tiles;
     }
+
     public static String asJsonString(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
