@@ -47,4 +47,16 @@ public class SessionService {
         sessionRepository.save(session);
         sessionRepository.flush();
     }
+
+    public void deleteSession(String sessionId) {
+        sessionRepository.deleteById(sessionId);
+    }
+
+    public void incrementTurnIndex(String sessionId) {
+        Session session = sessionRepository.findById(sessionId);
+        session.setTurnIndex(session.getTurnIndex() + 1);
+        sessionRepository.save(session);
+        sessionRepository.flush();
+    }
+
 }

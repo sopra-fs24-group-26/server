@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository("sessionRepository")
 public interface SessionRepository extends JpaRepository<Session, Long> {
     Session findById(String sessionId);
+    Session deleteById(String sessionId);
 }
