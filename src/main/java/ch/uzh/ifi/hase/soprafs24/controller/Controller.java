@@ -83,6 +83,13 @@ public class Controller {
         sessionService.incrementTurnIndex(tileDTO.getSessionId());
     }
 
+    @PutMapping("/discardTile")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public void discardTile(@RequestBody TileDTO tileDTO) {
+        sessionService.incrementTurnIndex(tileDTO.getSessionId());
+    }
+
     @PostMapping("/deletePlayer")
     public void deletePlayer(@RequestBody String playerId) {
         String id = DTOMappingFunctions.cleanString(playerId);

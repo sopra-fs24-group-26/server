@@ -38,7 +38,6 @@ public class PlayerRepositoryIntegrationTest {
 
         // when
         Player found = playerRepository.findById(player.getId());
-        System.out.println(found.getName());
 
         // then
         assertThat(found.getName()).isEqualTo(player.getName());
