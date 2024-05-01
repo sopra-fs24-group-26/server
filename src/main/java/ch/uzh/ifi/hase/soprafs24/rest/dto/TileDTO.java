@@ -24,4 +24,8 @@ public class TileDTO {
     @Getter
     @Setter
     private Integer coordinateY;
+
+    @Getter
+    @Setter
+    private Boolean discarded;
 }

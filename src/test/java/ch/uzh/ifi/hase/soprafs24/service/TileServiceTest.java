@@ -31,11 +31,13 @@ public class TileServiceTest {
         Tile expectedTile = new Tile();
         String dummyStr = "dummy";
         int dummyInt = 1;
+        boolean dummyBool = false;
         expectedTile.setId(dummyStr);
         expectedTile.setSessionId(dummyStr);
         expectedTile.setRotation(dummyInt);
         expectedTile.setCoordinateX(dummyInt);
         expectedTile.setCoordinateY(dummyInt);
+        expectedTile.setDiscarded(dummyBool);
 
         List<Tile> mockDataBase = new ArrayList<>();
         Mockito.when(tileRepository.save(any(Tile.class))).thenAnswer(invocation -> {
@@ -44,7 +46,7 @@ public class TileServiceTest {
             return null;
         });
 
-        tileService.createTile(dummyStr, dummyStr, dummyInt, dummyInt, dummyInt);
+        tileService.createTile(dummyStr, dummyStr, dummyInt, dummyInt, dummyInt, dummyBool);
         assertThat(mockDataBase.get(0)).usingRecursiveComparison().isEqualTo(expectedTile);
     }
 }

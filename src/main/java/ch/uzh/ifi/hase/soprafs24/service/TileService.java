@@ -21,13 +21,14 @@ public class TileService {
         this.tileRepository = tileRepository;
     }
 
-    public void createTile(String tileId, String sessionId, Integer rotation, Integer xCoordinate, Integer yCoordinate) {
+    public void createTile(String tileId, String sessionId, Integer rotation, Integer xCoordinate, Integer yCoordinate, boolean discarded) {
         Tile newTile = new Tile();
         newTile.setId(tileId);
         newTile.setSessionId(sessionId);
         newTile.setRotation(rotation);
         newTile.setCoordinateX(xCoordinate);
         newTile.setCoordinateY(yCoordinate);
+        newTile.setDiscarded(discarded);
 
         tileRepository.save(newTile);
         tileRepository.flush();
