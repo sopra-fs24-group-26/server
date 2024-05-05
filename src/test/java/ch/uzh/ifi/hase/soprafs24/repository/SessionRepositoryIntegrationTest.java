@@ -3,6 +3,8 @@ package ch.uzh.ifi.hase.soprafs24.repository;
 import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -42,4 +44,25 @@ public class SessionRepositoryIntegrationTest {
         assertThat(found.getSeed()).isEqualTo(seed);
         assertThat(found.getTurnIndex()).isNull();
     }
+
+    @Test
+    public void whenDeleteBySession_thenSessionIsDeleted() {
+        // given
+        Session session = new Session();
+        String id = UUID.randomUUID().toString();
+        String seed = UUID.randomUUID().toString();
+        session.setId(id);
+        session.setTurnIndex(null);
+        session.setSeed(seed);
+        sessionManager.persist(session);
+        sessionManager.flush();
+        assertThat(sessionRepository.count()).isEqualTo(1);
+
+        sessionRepository.deleteById(id);
+
+        assertThat(sessionRepository.count()).isEqualTo(0);
+
+    }
+
+
 }

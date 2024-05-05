@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs24.repository.SessionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -80,5 +82,28 @@ public class SessionServiceTest {
         Assertions.assertThrows(ResponseStatusException.class, () -> {
             sessionService.validateSessionId(id);
         });
+    }
+
+    @Test
+    public void whenIncrementTurnIndex_ValidIdIncrements5To6() {
+
+        when(sessionRepository.findById(anyString())).thenAnswer(invocation -> {
+            String id = invocation.getArgument(0);
+            Session newSession = new Session();
+            newSession.setId(id);
+            newSession.setSeed("seed");
+            newSession.setTurnIndex(5);
+            return newSession;
+        });
+        List<Session> mockDataBase = new ArrayList<>();
+        when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> {
+            Session session = invocation.getArgument(0);
+            mockDataBase.add(session);
+            return null;
+        });
+
+        String id = "id542369";
+        sessionService.incrementTurnIndex(id);
+        assertThat(mockDataBase.get(0).getTurnIndex()).isEqualTo(6);
     }
 }

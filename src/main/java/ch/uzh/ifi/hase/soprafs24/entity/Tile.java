@@ -34,4 +34,9 @@ public class Tile implements Serializable {
     @Setter
     @Column
     private Integer coordinateY;
+
+    @Getter
+    @Setter
+    @Column
+    private Boolean discarded;
 }
