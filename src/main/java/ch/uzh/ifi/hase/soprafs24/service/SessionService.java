@@ -53,7 +53,7 @@ public class SessionService {
 
     public boolean hasStarted(String sessionId){
         Session session = sessionRepository.findById(sessionId);
-        return session.getTurnIndex()!= null;
+        return session.getTurnIndex() != null;
     }
 
     public void deleteSession(String sessionId) {
