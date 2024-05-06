@@ -46,6 +46,10 @@ public class Controller {
     public String joinSession(@RequestBody JoinDTO joinData) {
         sessionService.validateSessionId(joinData.getSessionId());
 
+        if (sessionService.hasStarted(joinData.getSessionId())) {
+            return null;
+        }
+
         if (playerService.getPlayersInSession(joinData.getSessionId()).size() == 10) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player maximum has been reached");
         }
