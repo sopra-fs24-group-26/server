@@ -51,7 +51,7 @@ public class SessionService {
         sessionRepository.flush();
     }
 
-    public boolean hasStarted(String sessionId){
+    public boolean hasStarted(String sessionId) {
         Session session = sessionRepository.findById(sessionId);
         return session.getTurnIndex() != null;
     }

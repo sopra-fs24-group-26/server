@@ -46,7 +46,7 @@ public class Controller {
     public String joinSession(@RequestBody JoinDTO joinData) {
         sessionService.validateSessionId(joinData.getSessionId());
 
-        if (sessionService.hasStarted(joinData.getSessionId())){
+        if (sessionService.hasStarted(joinData.getSessionId())) {
             return null;
         }
 
