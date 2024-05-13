@@ -100,3 +100,52 @@ Update UML diagram on backend architecture
 
 Roxane: https://github.com/sopra-fs24-group-26/client/issues/44, https://github.com/sopra-fs24-group-26/client/issues/9.
 Here I implemented the visual representation of the tiles, when its the players turn. If it is not the players turn the tiles get a bit transparent and get a yellow hue. When it is the players turn the tiles look normal again. Additionally the player cannot play its tiles when it is not its turn. 
+
+## Week 5, 29.4.24 - 5.4.24
+
+Leon: https://github.com/sopra-fs24-group-26/client/issues/95,
+https://github.com/sopra-fs24-group-26/client/issues/96,
+Previously the adjacencymap only considered placed tiles and not goal tiles. The goal this week was that the adjacency map also detect goal tiles to be able to detect when the game ends. Also the whole adjacency map was refactored so it looks cleaner and is easier to read.
+
+Paul: 
+https://github.com/sopra-fs24-group-26/client/issues/10,
+https://github.com/sopra-fs24-group-26/client/issues/12,
+https://github.com/sopra-fs24-group-26/client/issues/13
+A player can click on the trash icon to discard a tile in hand. The player will automatically receive a new tile and it’s next player’s turn.
+
+Noah: https://github.com/sopra-fs24-group-26/client/issues/94,
+https://github.com/sopra-fs24-group-26/client/issues/96, 
+Fix deploy asset error and refactor tile placing.
+
+Roxane: https://github.com/sopra-fs24-group-26/client/issues/21, https://github.com/sopra-fs24-group-26/client/issues/97, https://github.com/sopra-fs24-group-26/client/issues/99
+Tiles have a transition to the background. New players can only join in the lobby, not when the game has already started and did with Patric the endgame logic.
+
+Patric: https://github.com/sopra-fs24-group-26/client/issues/106
+https://github.com/sopra-fs24-group-26/client/issues/17
+https://github.com/sopra-fs24-group-26/client/issues/16
+https://github.com/sopra-fs24-group-26/client/issues/20
+Endgame logic with Roxane. Also, when reaching a coal vein, a coal path gets put into its place and the game continues.
+
+## Week 6, 6.5.24 - 12.5.24
+
+Leon: https://github.com/sopra-fs24-group-26/client/issues/21, https://github.com/sopra-fs24-group-26/client/issues/13, When a tile was dragged and discarded at the same time the game broke and the endlogic wasn’t right. I fixed these bugs in this pr: https://github.com/sopra-fs24-group-26/client/pull/107.  This pr also contained a refactor of the adjacency map. A nice recursive algorithm to update all the tiles connected to start instead of the hard coded version from before. This makes it easier to add the rockfall- action card (to destroy an already placed tile) in the future.
+
+Paul: 
+https://github.com/sopra-fs24-group-26/client/issues/13,
+https://github.com/sopra-fs24-group-26/client/issues/108,
+https://github.com/sopra-fs24-group-26/client/issues/109
+Build in avatar api. Help fix a bug that a dragging tile might be discarded and thus break the endgame logic. An avatar is assigned to each player. Every player sees the same avatar for every other player.
+
+Noah: https://github.com/sopra-fs24-group-26/client/issues/117,
+https://github.com/sopra-fs24-group-26/client/issues/118,
+https://github.com/sopra-fs24-group-26/client/issues/119,
+https://github.com/sopra-fs24-group-26/client/issues/120
+Refactor, create actions architecture with Patric and implement look action.
+
+Roxane: https://github.com/sopra-fs24-group-26/client/issues/3, https://github.com/sopra-fs24-group-26/client/issues/121, https://github.com/sopra-fs24-group-26/client/issues/122, https://github.com/sopra-fs24-group-26/client/issues/123
+In the game there is an overview of profiles with usernames. Each player sees their own roles and sees whose turn it is.
+
+Patric:
+https://github.com/sopra-fs24-group-26/client/issues/120
+https://github.com/sopra-fs24-group-26/client/issues/124
+Refactor, create actions architecture with Noah. Add ore shower made of particles to endscreen.
