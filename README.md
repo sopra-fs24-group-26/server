@@ -1,3 +1,94 @@
+# Saboteur Web Version
+
+A webversion of the board game Saboteur, project for the Software Engineering Lab FS24 at UZH. <br>
+Our focus was to implement something that would exite us, leading to the creation of a simple web version of a fun board game we had played together
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+What things you need to install the software and how to install them
+
+```
+Give examples
+```
+
+### Installing
+
+A step by step series of examples that tell you how to get a development env running
+
+Say what the step will be
+
+```
+Give the example
+```
+
+And repeat
+
+```
+until finished
+```
+
+End with an example of getting some data out of the system or using it for a little demo
+
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+### Break down into end to end tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+## Technologies used
+
+* [Phaser](https://phaser.io/) - The Game Framework used
+* [Gradle](https://gradle.org/) - Build automation
+* [DiceBear](https://www.dicebear.com/) - Avatar library
+
+## Roadmap
+
+## Authors
+
+* **Patric Brandao** - [Patertuck](https://github.com/Patertuck)
+* **Noah Bussinger** - [C0DECYCLE](https://github.com/C0DECYCLE)
+* **Leon Braga** - [Twhining](https://github.com/Twhining)
+* **Ting-Chun Huang** - [paul891112](https://github.com/paul891112)
+* **Roxane Jaecklin** - [Croxsy](https://github.com/Croxsy)
+
+See also the list of [contributors](https://github.com/sopra-fs24-group-26/server/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+We thank the team of the Sopra FS24 modul for giving us the opportunity to freely work on a project
+
+
+
+
+
+
+
 # SoPra Lab FS24 Group 26 Server
 
 ## Pattern
