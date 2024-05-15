@@ -91,7 +91,8 @@ public class Controller {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
     public void discardTile(@RequestBody TileDTO tileDTO) {
-        tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(), tileDTO.getCoordinateY(), true);
+        tileService.createTile(tileDTO.getId(), tileDTO.getSessionId(), tileDTO.getRotation(), tileDTO.getCoordinateX(),
+                tileDTO.getCoordinateY(), true);
         sessionService.incrementTurnIndex(tileDTO.getSessionId());
     }
 

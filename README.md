@@ -22,23 +22,11 @@ Make sure you have the following installed:
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+The test suite mainly consists of three parts: ControllerTest, RepositoryIntegrationTest and ServiceTests.
 
-### Break down into end to end tests
+The ControllerTest is responsible to test REST endpoints, ServiceTest contains unit tests, while RepositoryIntegrationTest asserts interaction with database behaves as expected.
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+To run the test, use the gradle task bar, click on "Task" -> "verification" -> "test" to run the test suite. A JaCoCo test report will be generated automatically.
 
 ## Deployment
 
@@ -60,6 +48,15 @@ Add additional notes about how to deploy this on a live system
 -   [React](https://reactjs.org/) - JavaScript library for building user interfaces
 -   [Phaser](https://phaser.io/) - The Game Framework used
 -   [DiceBear](https://www.dicebear.com/) - Avatar library
+
+## High-level components
+
+Our project consists of three main high-level components: Controller, Service and Repository.
+
+### Controller
+
+The Controller is takes care of REST endpoints. Valid requests and expected behavior of 
+each request to server is defined here.
 
 ## Roadmap
 
