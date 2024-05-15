@@ -53,10 +53,28 @@ Add additional notes about how to deploy this on a live system
 
 Our project consists of three main high-level components: Controller, Service and Repository.
 
+
 ### Controller
 
 The Controller is takes care of REST endpoints. Valid requests and expected behavior of 
-each request to server is defined here.
+each request to server is defined here. This layer has direct dependency with the Service layer.
+
+### Service
+
+The Service component handles actions called by Controller and interaction with database. There are three classes associated
+with this layer: PlayerService, SessionService and TileService that each operate with the corresponding type of entity. The 
+Service layer communicates directly with the database/ Repository layer.
+
+### Repository
+
+The Repository layer represents the database. We use the Spring framework's JPARepository library for persistence.
+
+### General remarks
+
+In our project, the server only keeps track of the crucial information regarding a session/ game. It receives update
+request from client, updates the information in database, but doesn't actively send data to client. The client fetches
+game state in a constant time interval via the ping request.
+
 
 ## Roadmap
 
