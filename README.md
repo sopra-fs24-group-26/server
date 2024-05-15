@@ -76,10 +76,12 @@ game state in a constant time interval via the ping request.
 
 ## Roadmap - Ideas for future implementations
 
+-   Add more Actions to the game
 -   Make personalizable Avatar creation
 -   Add a timer to a players turn
 -   Add chat to game
 -   Add animations/more particles
+-   Add sound effects and music
 
 ## Pattern
 
