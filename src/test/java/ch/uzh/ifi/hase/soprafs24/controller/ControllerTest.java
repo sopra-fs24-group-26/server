@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.MockDataManager;
+import ch.uzh.ifi.hase.soprafs24.MockPlayerBuilder;
+import ch.uzh.ifi.hase.soprafs24.MockSessionBuilder;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Session;
 import ch.uzh.ifi.hase.soprafs24.entity.Tile;
@@ -9,6 +11,7 @@ import ch.uzh.ifi.hase.soprafs24.service.PlayerService;
 import ch.uzh.ifi.hase.soprafs24.service.SessionService;
 import ch.uzh.ifi.hase.soprafs24.service.TileService;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +112,22 @@ public class ControllerTest {
     }
 
     @Test
+    public void joinSession_gameHasStarted_returnNull() throws Exception {
+        Session mockSession = new MockSessionBuilder().build();
+        Player mockPlayer = new MockPlayerBuilder().build();
+        JoinDTO joinDTO = MockDataManager.mockJoinDTO(mockPlayer.getName(), mockSession.getId());
+
+        given(sessionService.hasStarted(mockSession.getId())).willReturn(true);
+
+        MockHttpServletRequestBuilder postRequest = post("/join").contentType(MediaType.APPLICATION_JSON)
+                .content(MockDataManager.asJsonString(joinDTO));
+
+        mockMvc.perform(postRequest)
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
     public void checkPlayerId_validPlayerId_returnPlayer() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
         Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId(), "gugus");
@@ -182,11 +201,28 @@ public class ControllerTest {
     }
 
     @Test
+    public void deletePlayer_deleteSessionIfOnePlayerLeft() throws Exception {
+        Session mockedSession = MockDataManager.mockSession();
+        Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId(), "gugus");
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(mockedPlayer);
+
+        Mockito.doNothing().when(playerService).deletePlayer(mockedPlayer.getId());
+        given(playerService.getPlayerById(mockedPlayer.getId())).willReturn(mockedPlayer);
+        given(playerService.getPlayersInSession(any())).willReturn(playerList);
+
+        MockHttpServletRequestBuilder deleteRequest = post("/deletePlayer").content(mockedPlayer.getId());
+
+        mockMvc.perform(deleteRequest).andExpect(status().isOk());
+        Mockito.verify(sessionService).deleteSession(mockedSession.getId());
+    }
+
+    @Test
     public void deletePlayer_validId_throwsNotFound() throws Exception {
         Session mockedSession = MockDataManager.mockSession();
         Player mockedPlayer = MockDataManager.mockPlayer(mockedSession.getId(), "gugus");
 
-        MockHttpServletRequestBuilder deleteRequest = delete("/player").content(mockedPlayer.getId());
+        MockHttpServletRequestBuilder deleteRequest = post("/deletePlayer").content(mockedPlayer.getId());
 
         mockMvc.perform(deleteRequest).andExpect(status().isNotFound());
     }

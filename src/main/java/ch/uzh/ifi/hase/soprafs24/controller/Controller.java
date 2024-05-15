@@ -47,7 +47,7 @@ public class Controller {
         sessionService.validateSessionId(joinData.getSessionId());
 
         if (sessionService.hasStarted(joinData.getSessionId())) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The game has already started, cannot join anymore");
         }
 
         if (playerService.getPlayersInSession(joinData.getSessionId()).size() == 10) {
