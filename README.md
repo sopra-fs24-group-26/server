@@ -76,7 +76,12 @@ request from client, updates the information in database, but doesn't actively s
 game state in a constant time interval via the ping request.
 
 
-## Roadmap
+## Roadmap - Ideas for future implementations
+
+- Make personalizable Avatar creation
+- Add a timer to a players turn
+- Add chat to game
+- Add animations/more particles
 
 ## Authors
 
@@ -94,7 +99,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-We thank the team of the Sopra FS24 modul for giving us the opportunity to freely work on a project
+We thank the team of the Sopra FS24 modul for giving us the opportunity to freely work on a project.
 
 # SoPra Lab FS24 Group 26 Server
 
