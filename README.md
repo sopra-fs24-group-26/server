@@ -3,6 +3,8 @@
 A webversion of the board game Saboteur, project for the Software Engineering Lab FS24 at UZH. <br>
 Our focus was to implement something that would exite us, leading to the creation of a simple web version of a fun board game we had played together
 
+Official game rules: https://world-of-board-games.com.sg/docs/Saboteur-Amigo.pdf
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -119,7 +121,7 @@ See also the list of [contributors](https://github.com/sopra-fs24-group-26/serve
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
