@@ -26,7 +26,7 @@ Make sure you have the following installed:
 
 The test suite mainly consists of three parts: ControllerTest, RepositoryIntegrationTest and ServiceTests.
 
-The ControllerTest is responsible to test REST endpoints, ServiceTest contains unit tests, while RepositoryIntegrationTest asserts interaction with database behaves as expected.
+The ControllerTest is responsible to test REST endpoints, ServiceTest contains unit tests on backend services (updating and fetching data in database), while RepositoryIntegrationTest asserts interaction with database behaves as expected.
 
 To run the test, use the gradle task bar, click on "Task" -> "verification" -> "test" to run the test suite. A JaCoCo test report will be generated automatically.
 
