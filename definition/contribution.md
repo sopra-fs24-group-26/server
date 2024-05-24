@@ -149,3 +149,48 @@ Patric:
 https://github.com/sopra-fs24-group-26/client/issues/120
 https://github.com/sopra-fs24-group-26/client/issues/124
 Refactor, create actions architecture with Noah. Add ore shower made of particles to endscreen.
+
+## Week 7, 13.5.24 - 19.5.24:
+
+Noah: https://github.com/sopra-fs24-group-26/client/issues/142,
+https://github.com/sopra-fs24-group-26/client/issues/143,
+https://github.com/sopra-fs24-group-26/client/issues/144,
+https://github.com/sopra-fs24-group-26/client/issues/145
+Fix user interface, user experience and flow bug.
+
+Leon: https://github.com/sopra-fs24-group-26/client/issues/134, https://github.com/sopra-fs24-group-26/client/issues/133, https://github.com/sopra-fs24-group-26/client/issues/130, https://github.com/sopra-fs24-group-26/client/issues/129,
+Write rules text and create rules scene. Draw controls description and add controls button to gameui sceen.
+
+Roxane:
+https://github.com/sopra-fs24-group-26/client/issues/146, https://github.com/sopra-fs24-group-26/client/issues/114, https://github.com/sopra-fs24-group-26/client/issues/115,
+Create the art for the activity tile, the buttons and the background of where the tiles are displayed in the game.
+
+Paul: 
+https://github.com/sopra-fs24-group-26/server/issues/142
+https://github.com/sopra-fs24-group-26/server/issues/144
+Complete test suite, write README
+
+Patric:
+https://github.com/sopra-fs24-group-26/server/issues/142
+https://github.com/sopra-fs24-group-26/server/issues/175
+Write readMe and add contributions
+
+## Week 8, 20.5.24 - 26.5.24:
+
+Noah: https://github.com/sopra-fs24-group-26/client/issues/160, 
+https://github.com/sopra-fs24-group-26/client/issues/169 
+Fix all remaining minor bugs, ux elements and implement bitmap font.
+
+Leon:
+Test game and create presentation.
+
+Roxane:
+Test game by playing it.
+
+Paul:
+Test game and write majority of report
+
+Patric:
+https://github.com/sopra-fs24-group-26/client/issues/160, 
+https://github.com/sopra-fs24-group-26/server/issues/199
+Fix all remaining minor bugs, ux elements and implement bitmap font.
